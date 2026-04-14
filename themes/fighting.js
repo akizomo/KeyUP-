@@ -30,6 +30,7 @@
   };
   let hitBus = null;    // Native Web Audio GainNode — boosts the hit samples
   const HIT_BUS_BOOST = 2.4;
+  let koGongBuffer = null;
   let lineKick = null;
   let clickPing = null;
   let cheerPlayers = null; // { 1, 2, 3 } -> Tone.Player
@@ -87,6 +88,13 @@
     _loadHit('mid',   'kick',  'kick_mid.mp3');
     _loadHit('large', 'punch', 'punch_large.mp3');
     _loadHit('large', 'kick',  'kick_large.mp3');
+
+    // KO gong sample — played through the same hit bus so setVolume applies.
+    fetch(_url('assets/ko_gong.mp3'))
+      .then((r) => r.arrayBuffer())
+      .then((ab) => _ctx.decodeAudioData(ab))
+      .then((buf) => { koGongBuffer = buf; })
+      .catch((err) => console.warn('[Key↑] ko_gong.mp3 load failed', err));
 
     // Linebreak (plain Enter w/o KO context — soft body hit)
     lineKick = new Tone.MembraneSynth({
@@ -234,11 +242,15 @@
 
   function playKO() {
     if (!started) { ensureStarted(); return; }
-    // Gong surrogate: heavy boom + crash. vol ~0.90 baked into synth headroom.
-    try {
-      koBoom.triggerAttackRelease(38, '2n');
-      koCrash.triggerAttackRelease('4n');
-    } catch (_) {}
+    // Real gong sample (vol ~0.90 → -0.9dB). Falls back to synth if still loading.
+    if (koGongBuffer) {
+      playSampleAt(koGongBuffer, 1.0, -0.9);
+    } else {
+      try {
+        koBoom.triggerAttackRelease(38, '2n');
+        koCrash.triggerAttackRelease('4n');
+      } catch (_) {}
+    }
     // LONG cheer at vol 0.60 (-4.4dB). 3s, then 0.8s fade-out.
     const p = cheerPlayers && cheerPlayers[3];
     if (!p || !p.loaded) return;
