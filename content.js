@@ -27,12 +27,14 @@
   document.addEventListener(
     'keydown',
     (e) => {
-      if (e.isComposing || e.keyCode === 229) {
-        send('key', { tier: 'small' });
-        return;
-      }
+      // Enter is checked first so Cmd/Ctrl+Enter still fires KO even while
+      // an IME is composing (where isComposing / keyCode 229 is true).
       if (e.key === 'Enter') {
         send(e.metaKey || e.ctrlKey ? 'cmdEnter' : 'enter');
+        return;
+      }
+      if (e.isComposing || e.keyCode === 229) {
+        send('key', { tier: 'small' });
         return;
       }
       if (
