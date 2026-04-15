@@ -22,6 +22,17 @@ body {
   letter-spacing: 0.02em;
 }
 
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 36px;
+  width: auto;
+  display: block;
+}
+
 .tagline {
   margin: 2px 0 14px;
   color: var(--muted);
