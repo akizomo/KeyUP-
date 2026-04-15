@@ -318,7 +318,7 @@
   let koFadeTimer = null;
   // Per-level base volume so Lv2→Lv3 is a clear escalation, not just
   // "another cheer track". dB values map to roughly 0.75 / 0.95 / 1.2 linear.
-  const CHEER_LV_DB = { 1: -3, 2: -0.5, 3: 1.5 };
+  const CHEER_LV_DB = { 1: -3, 2: -0.5, 3: 3 };
 
   function playCheer(level, opts) {
     if (!started || !cheerPlayers) return;
