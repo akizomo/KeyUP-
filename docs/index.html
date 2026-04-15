@@ -3,9 +3,26 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>KeyUp | Every Keystroke is a Strike</title>
-<meta name="description" content="KeyUp turns your keyboard into a weapon. Type. Fight. Win." />
+<title>KeyUp — Every Keystroke is a Strike</title>
+<meta name="description" content="KeyUp turns your keyboard into a game. A free Chrome extension that plays punch and kick sound effects as you type, with stadium crowd BGM and a KO finisher on Cmd+Enter." />
+<meta name="theme-color" content="#0d0d16" />
+<meta name="robots" content="index, follow" />
 <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="KeyUp" />
+<meta property="og:title" content="KeyUp — Every Keystroke is a Strike" />
+<meta property="og:description" content="Type. Fight. Win. A free Chrome extension that turns your keyboard into a fighting game." />
+<meta property="og:image" content="assets/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:locale:alternate" content="ja_JP" />
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="KeyUp — Every Keystroke is a Strike" />
+<meta name="twitter:description" content="Type. Fight. Win. A free Chrome extension that turns your keyboard into a fighting game." />
+<meta name="twitter:image" content="assets/og-image.png" />
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Tektur:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
@@ -103,10 +120,11 @@
     <a href="#top" class="flex items-center">
       <img src="assets/logo.svg" alt="KeyUp" class="h-7 sm:h-8 w-auto" />
     </a>
-    <div class="hidden md:flex gap-8 font-headline uppercase tracking-tighter items-center text-sm">
+    <div class="hidden md:flex gap-6 lg:gap-8 font-headline uppercase tracking-tighter items-center text-sm">
       <a href="#arena" class="text-cyan-400 border-b-2 border-cyan-400 pb-1 hover:text-amber-300 transition-all">Arena</a>
       <a href="#controls" class="text-slate-400 hover:text-amber-300 transition-all">Controls</a>
       <a href="#roadmap" class="text-slate-400 hover:text-amber-300 transition-all">Roadmap</a>
+      <a href="#faq" class="text-slate-400 hover:text-amber-300 transition-all">FAQ</a>
     </div>
     <div class="flex items-center gap-2 sm:gap-3">
       <button id="lang-toggle" aria-label="Toggle language" class="font-mono text-[10px] sm:text-xs tracking-widest uppercase text-slate-400 hover:text-amber-300 border border-slate-700 hover:border-amber-400/60 rounded px-2 py-1 transition-colors">
@@ -328,6 +346,138 @@
     </div>
   </section>
 
+  <!-- ============================ SCREENSHOTS ============================ -->
+  <section id="gallery" class="max-w-7xl mx-auto px-4 sm:px-6 py-20 sm:py-24 border-t border-outline-variant/30">
+    <div class="text-center mb-12 sm:mb-16">
+      <h2 class="font-headline text-4xl sm:text-5xl md:text-6xl font-black italic uppercase tracking-tighter mb-2">
+        <span class="t-en">In action</span><span class="t-ja font-jp not-italic">使用イメージ</span>
+      </h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+      <figure class="group bg-surface-container border border-outline-variant overflow-hidden rounded-xl transition-all hover:border-primary/50 hover:shadow-[0_0_20px_rgba(255,221,124,0.15)]">
+        <div class="aspect-video bg-gradient-to-br from-surface-container-high to-surface-container-highest flex items-center justify-center border-b border-outline-variant">
+          <img src="assets/screenshot-gmail.png" alt="KeyUp on Gmail" class="w-full h-full object-cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+          <div class="hidden w-full h-full items-center justify-center text-outline text-sm font-mono tracking-widest uppercase">[ screenshot ]</div>
+        </div>
+        <figcaption class="p-4 sm:p-5">
+          <div class="font-headline font-bold uppercase text-primary tracking-wider text-sm">Gmail</div>
+          <p class="mt-1 text-sm text-on-surface-variant t-en">Compose email while the stadium roars.</p>
+          <p class="mt-1 text-sm text-on-surface-variant font-jp t-ja">メール作成中、スタジアムの歓声が鳴る。</p>
+        </figcaption>
+      </figure>
+      <figure class="group bg-surface-container border border-outline-variant overflow-hidden rounded-xl transition-all hover:border-primary/50 hover:shadow-[0_0_20px_rgba(255,221,124,0.15)]">
+        <div class="aspect-video bg-gradient-to-br from-surface-container-high to-surface-container-highest flex items-center justify-center border-b border-outline-variant">
+          <img src="assets/screenshot-docs.png" alt="KeyUp on Google Docs" class="w-full h-full object-cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+          <div class="hidden w-full h-full items-center justify-center text-outline text-sm font-mono tracking-widest uppercase">[ screenshot ]</div>
+        </div>
+        <figcaption class="p-4 sm:p-5">
+          <div class="font-headline font-bold uppercase text-primary tracking-wider text-sm">Google Docs</div>
+          <p class="mt-1 text-sm text-on-surface-variant t-en">Every paragraph ends with a KO.</p>
+          <p class="mt-1 text-sm text-on-surface-variant font-jp t-ja">段落の終わりは全部KO。</p>
+        </figcaption>
+      </figure>
+      <figure class="group bg-surface-container border border-outline-variant overflow-hidden rounded-xl transition-all hover:border-primary/50 hover:shadow-[0_0_20px_rgba(255,221,124,0.15)]">
+        <div class="aspect-video bg-gradient-to-br from-surface-container-high to-surface-container-highest flex items-center justify-center border-b border-outline-variant">
+          <img src="assets/screenshot-popup.png" alt="KeyUp popup" class="w-full h-full object-cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+          <div class="hidden w-full h-full items-center justify-center text-outline text-sm font-mono tracking-widest uppercase">[ screenshot ]</div>
+        </div>
+        <figcaption class="p-4 sm:p-5">
+          <div class="font-headline font-bold uppercase text-primary tracking-wider text-sm">Extension Popup</div>
+          <p class="mt-1 text-sm text-on-surface-variant t-en">Volume, theme, sound guide — all in one tap.</p>
+          <p class="mt-1 text-sm text-on-surface-variant font-jp t-ja">音量・テーマ・ガイドをワンタップで。</p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============================ FAQ ============================ -->
+  <section id="faq" class="max-w-4xl mx-auto px-4 sm:px-6 py-20 sm:py-24 border-t border-outline-variant/30">
+    <div class="text-center mb-12 sm:mb-16">
+      <h2 class="font-headline text-4xl sm:text-5xl md:text-6xl font-black italic uppercase tracking-tighter mb-2">
+        <span class="t-en">FAQ</span><span class="t-ja font-jp not-italic">よくある質問</span>
+      </h2>
+    </div>
+    <div class="space-y-3">
+      <details class="group bg-surface-container border border-outline-variant rounded-md open:border-primary/60 open:shadow-[0_0_20px_rgba(255,221,124,0.12)] transition-all">
+        <summary class="cursor-pointer list-none flex items-center justify-between px-5 sm:px-6 py-4 font-headline font-bold uppercase tracking-wider text-sm sm:text-base">
+          <span>
+            <span class="t-en">Is KeyUp free?</span><span class="t-ja font-jp">KeyUpは無料ですか？</span>
+          </span>
+          <span class="material-symbols-outlined text-primary transition-transform group-open:rotate-45">add</span>
+        </summary>
+        <div class="px-5 sm:px-6 pb-5 text-on-surface-variant leading-relaxed">
+          <p class="t-en">Yes. The Fighting theme is free forever. Additional worlds (Arcade, etc.) may be offered as one-time purchases in the future.</p>
+          <p class="font-jp t-ja">はい、Fightingテーマは永久無料です。Arcadeなど追加ワールドは将来的に一度きり購入として提供される予定です。</p>
+        </div>
+      </details>
+
+      <details class="group bg-surface-container border border-outline-variant rounded-md open:border-primary/60 open:shadow-[0_0_20px_rgba(255,221,124,0.12)] transition-all">
+        <summary class="cursor-pointer list-none flex items-center justify-between px-5 sm:px-6 py-4 font-headline font-bold uppercase tracking-wider text-sm sm:text-base">
+          <span>
+            <span class="t-en">I can't hear any sound. What should I do?</span><span class="t-ja font-jp">音が出ません</span>
+          </span>
+          <span class="material-symbols-outlined text-primary transition-transform group-open:rotate-45">add</span>
+        </summary>
+        <div class="px-5 sm:px-6 pb-5 text-on-surface-variant leading-relaxed">
+          <p class="t-en">Browsers block audio until the page receives a user gesture. Click anywhere on the page once, then start typing. Also check the volume slider in the popup — dragging it to 0 silences everything.</p>
+          <p class="font-jp t-ja">ブラウザはユーザー操作があるまで音声をブロックします。ページ内を一度クリックしてから入力してください。ポップアップの音量スライダーが0になっていないかもご確認ください。</p>
+        </div>
+      </details>
+
+      <details class="group bg-surface-container border border-outline-variant rounded-md open:border-primary/60 open:shadow-[0_0_20px_rgba(255,221,124,0.12)] transition-all">
+        <summary class="cursor-pointer list-none flex items-center justify-between px-5 sm:px-6 py-4 font-headline font-bold uppercase tracking-wider text-sm sm:text-base">
+          <span>
+            <span class="t-en">Which sites does KeyUp work on?</span><span class="t-ja font-jp">どのサイトで動きますか？</span>
+          </span>
+          <span class="material-symbols-outlined text-primary transition-transform group-open:rotate-45">add</span>
+        </summary>
+        <div class="px-5 sm:px-6 pb-5 text-on-surface-variant leading-relaxed">
+          <p class="t-en">Any site where you can type — Gmail, Google Docs, Notion, Slack, Twitter/X, GitHub, VS Code for the Web, and so on. Some sites with strict Content Security Policies may limit audio playback.</p>
+          <p class="font-jp t-ja">タイピングできるあらゆるサイトで動作します（Gmail / Google Docs / Notion / Slack / X / GitHub / VS Code for Web など）。一部CSPが厳しいサイトでは音声再生が制限される場合があります。</p>
+        </div>
+      </details>
+
+      <details class="group bg-surface-container border border-outline-variant rounded-md open:border-primary/60 open:shadow-[0_0_20px_rgba(255,221,124,0.12)] transition-all">
+        <summary class="cursor-pointer list-none flex items-center justify-between px-5 sm:px-6 py-4 font-headline font-bold uppercase tracking-wider text-sm sm:text-base">
+          <span>
+            <span class="t-en">Does KeyUp record what I type?</span><span class="t-ja font-jp">入力内容は記録されますか？</span>
+          </span>
+          <span class="material-symbols-outlined text-primary transition-transform group-open:rotate-45">add</span>
+        </summary>
+        <div class="px-5 sm:px-6 pb-5 text-on-surface-variant leading-relaxed">
+          <p class="t-en">No. KeyUp detects <em>that</em> a key was pressed to trigger sound, but never records, stores, or transmits the actual characters. Nothing leaves your browser. Details: <a href="privacy.html" class="text-primary underline hover:text-amber-300">Privacy Policy</a>.</p>
+          <p class="font-jp t-ja">いいえ。KeyUpはキーが押されたこと自体を検出してSEを再生しますが、入力された文字を記録・保存・送信することは一切ありません。ブラウザの外には何も出ません。詳細は <a href="privacy.html" class="text-primary underline hover:text-amber-300">プライバシーポリシー</a> をご覧ください。</p>
+        </div>
+      </details>
+
+      <details class="group bg-surface-container border border-outline-variant rounded-md open:border-primary/60 open:shadow-[0_0_20px_rgba(255,221,124,0.12)] transition-all">
+        <summary class="cursor-pointer list-none flex items-center justify-between px-5 sm:px-6 py-4 font-headline font-bold uppercase tracking-wider text-sm sm:text-base">
+          <span>
+            <span class="t-en">How do I disable KeyUp on a specific site?</span><span class="t-ja font-jp">特定のサイトだけ無効化したい</span>
+          </span>
+          <span class="material-symbols-outlined text-primary transition-transform group-open:rotate-45">add</span>
+        </summary>
+        <div class="px-5 sm:px-6 pb-5 text-on-surface-variant leading-relaxed">
+          <p class="t-en">Open the popup and turn off "Typing SE". Per-site disable is on the roadmap.</p>
+          <p class="font-jp t-ja">ポップアップから「タイピングSE」をオフにしてください。サイトごとの個別オフは今後のロードマップで対応予定です。</p>
+        </div>
+      </details>
+
+      <details class="group bg-surface-container border border-outline-variant rounded-md open:border-primary/60 open:shadow-[0_0_20px_rgba(255,221,124,0.12)] transition-all">
+        <summary class="cursor-pointer list-none flex items-center justify-between px-5 sm:px-6 py-4 font-headline font-bold uppercase tracking-wider text-sm sm:text-base">
+          <span>
+            <span class="t-en">Which browsers are supported?</span><span class="t-ja font-jp">対応ブラウザは？</span>
+          </span>
+          <span class="material-symbols-outlined text-primary transition-transform group-open:rotate-45">add</span>
+        </summary>
+        <div class="px-5 sm:px-6 pb-5 text-on-surface-variant leading-relaxed">
+          <p class="t-en">Chrome 120+ and any Chromium-based browser that supports Manifest V3 (Edge, Arc, Brave, Vivaldi).</p>
+          <p class="font-jp t-ja">Chrome 120以上、およびManifest V3に対応したChromium系ブラウザ（Edge / Arc / Brave / Vivaldi）。</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
   <!-- ============================ CTA ============================ -->
   <section id="cta" class="relative py-28 sm:py-40 overflow-hidden bg-surface-container-highest">
     <div class="absolute inset-0 opacity-10 pointer-events-none">
@@ -357,10 +507,10 @@
   <footer class="w-full py-12 bg-slate-950 flex flex-col items-center gap-6 px-4 border-t-4 border-double border-slate-800">
     <img src="assets/logo.svg" alt="KeyUp" class="h-7 w-auto" />
     <div class="flex flex-wrap justify-center gap-6 sm:gap-8 font-mono text-[10px] sm:text-xs tracking-widest uppercase text-slate-500">
-      <a href="#" class="hover:text-cyan-300 transition-colors"><span class="t-en">Terms</span><span class="t-ja">利用規約</span></a>
-      <a href="#" class="hover:text-cyan-300 transition-colors"><span class="t-en">Privacy</span><span class="t-ja">プライバシー</span></a>
-      <a href="#" class="hover:text-cyan-300 transition-colors"><span class="t-en">Hardware</span><span class="t-ja">ハードウェア</span></a>
-      <a href="#" class="hover:text-cyan-300 transition-colors"><span class="t-en">Support</span><span class="t-ja">サポート</span></a>
+      <a href="privacy.html" class="hover:text-cyan-300 transition-colors"><span class="t-en">Privacy</span><span class="t-ja">プライバシー</span></a>
+      <a href="privacy.html#permissions" class="hover:text-cyan-300 transition-colors"><span class="t-en">Permissions</span><span class="t-ja">権限について</span></a>
+      <a href="#faq" class="hover:text-cyan-300 transition-colors"><span class="t-en">FAQ</span><span class="t-ja">FAQ</span></a>
+      <a href="mailto:support@keyup.app" class="hover:text-cyan-300 transition-colors"><span class="t-en">Support</span><span class="t-ja">サポート</span></a>
     </div>
     <div class="text-slate-500 font-mono text-[10px] sm:text-xs tracking-widest uppercase mt-2 text-center">
       © 199X NEON KINETIC SYSTEMS. ALL RIGHTS RESERVED.
@@ -481,12 +631,23 @@
     play(file, { rate: 1 + variance, gain: 1.1 });
   }
 
+  // Per-level hold time before the fade kicks in. Short combos get a quick
+  // burst; higher levels linger a bit longer but never full-length.
+  const CHEER_HOLD_S = { 1: 0.8, 2: 1.2, 3: 1.6 };
+  const CHEER_FADE_S = 0.5;
+
   function playCheer(level) {
     const now = Date.now();
     if (now - lastCheerAt < CHEER_COOLDOWN_MS) return;
     lastCheerAt = now;
     const file = CHEER_FILES[level] || CHEER_FILES[1];
-    play(file, { gain: 0.9 });
+    const node = play(file, { gain: 0.9 });
+    if (!node) return;
+    const fadeStart = ctx.currentTime + (CHEER_HOLD_S[level] || 1.0);
+    const fadeEnd = fadeStart + CHEER_FADE_S;
+    node.gain.gain.setValueAtTime(0.9, fadeStart);
+    node.gain.gain.linearRampToValueAtTime(0.0001, fadeEnd);
+    try { node.src.stop(fadeEnd + 0.05); } catch (_) {}
   }
 
   // ----- BGM -----
