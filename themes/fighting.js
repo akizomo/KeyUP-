@@ -339,8 +339,6 @@
       player.start();
       activeCheer = player;
     } catch (_) {}
-    // Lv3 adds a ko_gong sub-layer for extra weight on the jump from Lv2.
-    if (level === 3 && koGongBuffer) playSampleAt(koGongBuffer, 1.0, -6);
   }
 
   function stopActiveCheer() {

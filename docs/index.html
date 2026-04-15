@@ -348,50 +348,6 @@
     </div>
   </section>
 
-  <!-- ============================ SCREENSHOTS ============================ -->
-  <section id="gallery" class="max-w-7xl mx-auto px-4 sm:px-6 py-20 sm:py-24 border-t border-outline-variant/30">
-    <div class="text-center mb-12 sm:mb-16">
-      <h2 class="font-headline text-4xl sm:text-5xl md:text-6xl font-black italic uppercase tracking-tighter mb-2">
-        <span class="t-en">In action</span><span class="t-ja font-jp not-italic">使用イメージ</span>
-      </h2>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-      <figure class="group bg-surface-container border border-outline-variant overflow-hidden rounded-xl transition-all hover:border-primary/50 hover:shadow-[0_0_20px_rgba(255,221,124,0.15)]">
-        <div class="aspect-video bg-gradient-to-br from-surface-container-high to-surface-container-highest flex items-center justify-center border-b border-outline-variant">
-          <img src="assets/screenshot-gmail.png" alt="KeyUp on Gmail" class="w-full h-full object-cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-          <div class="hidden w-full h-full items-center justify-center text-outline text-sm font-mono tracking-widest uppercase">[ screenshot ]</div>
-        </div>
-        <figcaption class="p-4 sm:p-5">
-          <div class="font-headline font-bold uppercase text-primary tracking-wider text-sm">Gmail</div>
-          <p class="mt-1 text-sm text-on-surface-variant t-en">Compose email while the stadium roars.</p>
-          <p class="mt-1 text-sm text-on-surface-variant font-jp t-ja">メール作成中、スタジアムの歓声が鳴る。</p>
-        </figcaption>
-      </figure>
-      <figure class="group bg-surface-container border border-outline-variant overflow-hidden rounded-xl transition-all hover:border-primary/50 hover:shadow-[0_0_20px_rgba(255,221,124,0.15)]">
-        <div class="aspect-video bg-gradient-to-br from-surface-container-high to-surface-container-highest flex items-center justify-center border-b border-outline-variant">
-          <img src="assets/screenshot-docs.png" alt="KeyUp on Google Docs" class="w-full h-full object-cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-          <div class="hidden w-full h-full items-center justify-center text-outline text-sm font-mono tracking-widest uppercase">[ screenshot ]</div>
-        </div>
-        <figcaption class="p-4 sm:p-5">
-          <div class="font-headline font-bold uppercase text-primary tracking-wider text-sm">Google Docs</div>
-          <p class="mt-1 text-sm text-on-surface-variant t-en">Every paragraph ends with a KO.</p>
-          <p class="mt-1 text-sm text-on-surface-variant font-jp t-ja">段落の終わりは全部KO。</p>
-        </figcaption>
-      </figure>
-      <figure class="group bg-surface-container border border-outline-variant overflow-hidden rounded-xl transition-all hover:border-primary/50 hover:shadow-[0_0_20px_rgba(255,221,124,0.15)]">
-        <div class="aspect-video bg-gradient-to-br from-surface-container-high to-surface-container-highest flex items-center justify-center border-b border-outline-variant">
-          <img src="assets/screenshot-popup.png" alt="KeyUp popup" class="w-full h-full object-cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-          <div class="hidden w-full h-full items-center justify-center text-outline text-sm font-mono tracking-widest uppercase">[ screenshot ]</div>
-        </div>
-        <figcaption class="p-4 sm:p-5">
-          <div class="font-headline font-bold uppercase text-primary tracking-wider text-sm">Extension Popup</div>
-          <p class="mt-1 text-sm text-on-surface-variant t-en">Volume, theme, sound guide — all in one tap.</p>
-          <p class="mt-1 text-sm text-on-surface-variant font-jp t-ja">音量・テーマ・ガイドをワンタップで。</p>
-        </figcaption>
-      </figure>
-    </div>
-  </section>
-
   <!-- ============================ FAQ ============================ -->
   <section id="faq" class="max-w-4xl mx-auto px-4 sm:px-6 py-20 sm:py-24 border-t border-outline-variant/30">
     <div class="text-center mb-12 sm:mb-16">
@@ -514,8 +470,8 @@
       <a href="#faq" class="hover:text-cyan-300 transition-colors"><span class="t-en">FAQ</span><span class="t-ja">FAQ</span></a>
       <a href="mailto:contact@akizony.com" class="hover:text-cyan-300 transition-colors"><span class="t-en">Support</span><span class="t-ja">サポート</span></a>
     </div>
-    <div class="text-slate-500 font-mono text-[10px] sm:text-xs tracking-widest uppercase mt-2 text-center">
-      © 199X NEON KINETIC SYSTEMS. ALL RIGHTS RESERVED.
+    <div class="text-slate-500 font-mono text-[10px] sm:text-xs tracking-widest uppercase mt-2 text-center leading-relaxed">
+      Created by <a href="https://akihiro-uezono.vercel.app/" target="_blank" rel="noopener" class="hover:text-amber-300 underline underline-offset-2 transition-colors">Akihiro Uezono</a><br/>© 2026 KEYUP
     </div>
   </footer>
 </main>
@@ -653,9 +609,6 @@
     node.gain.gain.setValueAtTime(gain, fadeStart);
     node.gain.gain.linearRampToValueAtTime(0.0001, fadeEnd);
     try { node.src.stop(fadeEnd + 0.05); } catch (_) {}
-    // Lv3 gets an extra ko_gong sub-layer for weight so the jump from Lv2
-    // feels like a real power-up, not just another crowd burst.
-    if (level === 3) play('ko_gong.mp3', { gain: 0.45 });
   }
 
   // ----- BGM -----
