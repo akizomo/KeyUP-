@@ -31,7 +31,7 @@
         {
           label: 'フィニッシュ',
           items: [
-            { keys: ['⌘/Ctrl + Enter'], sound: 'KOゴング + 歓声Long (3秒→フェード)', icon: '🛎️' },
+            { keys: ['⌘/Ctrl + Enter'], sound: 'KOゴング + KOボイス + 歓声Long (3秒→フェード)', icon: '🛎️' },
           ],
         },
         {
@@ -71,7 +71,7 @@
         {
           label: 'Finisher',
           items: [
-            { keys: ['⌘/Ctrl + Enter'], sound: 'KO gong + long cheer (3s → fade)', icon: '🛎️' },
+            { keys: ['⌘/Ctrl + Enter'], sound: 'KO gong + KO voice + long cheer (3s → fade)', icon: '🛎️' },
           ],
         },
         {
@@ -121,6 +121,7 @@
   let hitBus = null;    // Native Web Audio GainNode — boosts the hit samples
   const HIT_BUS_BOOST = 2.4;
   let koGongBuffer = null;
+  let koVoiceBuffer = null;
   let whooshBuffer = null;
   let lineKick = null;
   let clickPing = null;
@@ -186,6 +187,13 @@
       .then((ab) => _ctx.decodeAudioData(ab))
       .then((buf) => { koGongBuffer = buf; })
       .catch((err) => console.warn('[Key↑] ko_gong.mp3 load failed', err));
+
+    // KO voice shout — layered on top of the gong.
+    fetch(_url('assets/ko_voice.mp3'))
+      .then((r) => r.arrayBuffer())
+      .then((ab) => _ctx.decodeAudioData(ab))
+      .then((buf) => { koVoiceBuffer = buf; })
+      .catch((err) => console.warn('[Key↑] ko_voice.mp3 load failed', err));
 
     // Click whoosh (punch swing) — used for mouse clicks.
     fetch(_url('assets/punch_whoosh.mp3'))
@@ -354,6 +362,10 @@
         koBoom.triggerAttackRelease(38, '2n');
         koCrash.triggerAttackRelease('4n');
       } catch (_) {}
+    }
+    // KO shout — layered on top of the gong at vol ~0.85 (-1.4 dB).
+    if (koVoiceBuffer) {
+      playSampleAt(koVoiceBuffer, 1.0, -1.4);
     }
     // LONG cheer at vol 0.60 (-4.4dB). 3s, then 0.8s fade-out.
     const p = cheerPlayers && cheerPlayers[3];
