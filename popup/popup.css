@@ -103,9 +103,16 @@ hr {
 }
 
 .theme-options {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   gap: 6px;
+}
+
+.theme-options .theme-option {
+  flex: 1;
+}
+
+.theme-option[hidden] {
+  display: none;
 }
 
 .theme-option {
