@@ -105,10 +105,10 @@
   const CHEER_COOLDOWN_MS = 3000;
   const BGM_IDLE_TIMEOUT_MS = 2000;
   const BGM_FADE_OUT_S = 0.8;
-  const MASTER_OFFSET_DB = 2;
+  const MASTER_OFFSET_DB = -4;
 
   let started = false;
-  let userVolume = 0.7;
+  let userVolume = 0.5;
   let onLevelChange = null;
 
   // Hit sample bank: 6 real recordings (small/mid/large × punch/kick)
@@ -119,7 +119,7 @@
     large: { punch: null, kick: null },
   };
   let hitBus = null;    // Native Web Audio GainNode — boosts the hit samples
-  const HIT_BUS_BOOST = 2.4;
+  const HIT_BUS_BOOST = 1.5;
   let koGongBuffer = null;
   let koVoiceBuffer = null;
   let whooshBuffer = null;

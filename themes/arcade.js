@@ -86,10 +86,10 @@
   };
 
   const SCALE_HZ = [220, 261.63, 311.13, 349.23, 440, 523.25, 622.25, 698.46, 880];
-  const MASTER_OFFSET_DB = 2;
+  const MASTER_OFFSET_DB = -4;
 
   let started = false;
-  let userVolume = 0.7;
+  let userVolume = 0.5;
   let bgmActive = false;
   let keySynth = null;
   let enterSynth = null;

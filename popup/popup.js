@@ -1,5 +1,5 @@
 const DEFAULTS = {
-  volume: 0.7,
+  volume: 0.5,
   typingSE: true,
   clickSE: true,
   invincibleBGM: true,
@@ -92,6 +92,10 @@ applyStaticI18n();
 
 chrome.storage.sync.get(DEFAULTS, (stored) => {
   const settings = { ...DEFAULTS, ...stored };
+  if (settings.activeTheme === 'arcade') {
+    settings.activeTheme = 'fighting';
+    save({ activeTheme: 'fighting' });
+  }
   render(settings);
 });
 

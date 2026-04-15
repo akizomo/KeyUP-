@@ -13,7 +13,7 @@
   const DEFAULT_THEME = 'fighting';
 
   const DEFAULT_SETTINGS = {
-    volume: 0.7,
+    volume: 0.5,
     typingSE: true,
     clickSE: true,
     invincibleBGM: true,
