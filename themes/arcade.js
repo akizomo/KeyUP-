@@ -1,6 +1,45 @@
 // Key↑ — Arcade theme (8-bit Tone.js synth, original Key↑ sound)
 // Self-contained theme module. Registered onto window.KeyUpThemes.arcade.
 
+// Guide metadata — registered before the Tone guard so the popup can read it.
+(function () {
+  'use strict';
+  window.KeyUpThemes = window.KeyUpThemes || {};
+  window.KeyUpThemes.arcade = window.KeyUpThemes.arcade || {};
+  window.KeyUpThemes.arcade.guide = {
+    title: '🕹️ アーケード',
+    groups: [
+      {
+        label: 'タイピング',
+        items: [
+          { keys: ['通常文字'], sound: '8bitブリップ (ピッチ上昇)', icon: '🎵' },
+          { keys: ['Enter'],   sound: 'キック + ノイズ',          icon: '⬇️' },
+        ],
+      },
+      {
+        label: '無敵タイム (連続打鍵)',
+        items: [
+          { keys: ['10秒'], sound: 'Lv1 アルペジオ開始', icon: '🌟' },
+          { keys: ['30秒'], sound: 'Lv2 ベースライン追加', icon: '⚡' },
+          { keys: ['60秒'], sound: 'Lv3 リード追加 (MAX)',  icon: '🔥' },
+        ],
+      },
+      {
+        label: 'クリック',
+        items: [
+          { keys: ['マウス'], sound: '決定SE', icon: '🖱️' },
+        ],
+      },
+      {
+        label: 'BGM',
+        items: [
+          { keys: ['2秒無操作'], sound: '全レイヤー停止', icon: '🔇' },
+        ],
+      },
+    ],
+  };
+})();
+
 (function () {
   'use strict';
   if (typeof Tone === 'undefined') return;

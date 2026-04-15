@@ -125,3 +125,92 @@ hr {
 .theme-icon {
   font-size: 18px;
 }
+
+.guide {
+  font-size: 11px;
+}
+
+.guide summary {
+  cursor: pointer;
+  color: var(--fg);
+  font-size: 12px;
+  padding: 4px 0;
+  user-select: none;
+  list-style: none;
+}
+
+.guide summary::-webkit-details-marker { display: none; }
+
+.guide summary::before {
+  content: '▸ ';
+  color: var(--muted);
+  display: inline-block;
+  transition: transform 0.15s;
+}
+
+.guide[open] summary::before {
+  content: '▾ ';
+}
+
+.guide-title {
+  color: var(--accent);
+  font-size: 11px;
+  margin: 8px 0 4px;
+  letter-spacing: 0.04em;
+}
+
+.guide-group {
+  margin: 6px 0 8px;
+}
+
+.guide-group-label {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.guide-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 0;
+  line-height: 1.4;
+}
+
+.guide-icon {
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.guide-keys {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.guide-keys kbd {
+  background: #1a1e36;
+  border: 1px solid #2e3352;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--fg);
+  white-space: nowrap;
+}
+
+.guide-arrow {
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.guide-sound {
+  color: var(--muted);
+  font-size: 10px;
+  flex: 1;
+  min-width: 0;
+}

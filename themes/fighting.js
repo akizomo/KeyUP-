@@ -2,6 +2,48 @@
 // Tier is key-driven (small = char, mid = punct/space, large = Enter).
 // Cmd+Enter = KO (gong + long cheer that fades after 3s).
 
+// Guide metadata — registered before the Tone guard so the popup (which
+// loads this file without Tone) can still read it.
+(function () {
+  'use strict';
+  window.KeyUpThemes = window.KeyUpThemes || {};
+  window.KeyUpThemes.fighting = window.KeyUpThemes.fighting || {};
+  window.KeyUpThemes.fighting.guide = {
+    title: '🥊 格闘ゲーム',
+    groups: [
+      {
+        label: 'タイピング',
+        items: [
+          { keys: ['通常文字'], sound: '小パンチ / 小キック', icon: '👊' },
+          { keys: ['、 。 , . ! ?', 'Space', 'Tab'], sound: '中パンチ / 中キック', icon: '🦵' },
+          { keys: ['Enter'], sound: '大パンチ / 大キック', icon: '💥' },
+        ],
+      },
+      {
+        label: 'コンボ歓声',
+        items: [
+          { keys: ['5打'],  sound: '歓声 Lv1 (Short)', icon: '📣' },
+          { keys: ['15打'], sound: '歓声 Lv2 (Mid)',   icon: '🎉' },
+          { keys: ['30打'], sound: '歓声 Lv3 (Long)',  icon: '🔥' },
+        ],
+      },
+      {
+        label: 'フィニッシュ',
+        items: [
+          { keys: ['⌘/Ctrl + Enter'], sound: 'KOゴング + 歓声Long (3秒→フェード)', icon: '🛎️' },
+        ],
+      },
+      {
+        label: 'BGM',
+        items: [
+          { keys: ['最初のキー'], sound: 'スタジアムBGM開始 (ループ)', icon: '🏟️' },
+          { keys: ['2秒無操作'],  sound: 'BGMフェードアウト (0.8秒)', icon: '🔇' },
+        ],
+      },
+    ],
+  };
+})();
+
 (function () {
   'use strict';
   if (typeof Tone === 'undefined') return;

@@ -40,6 +40,36 @@ function render(settings) {
   document.querySelectorAll('.theme-option').forEach((el) => {
     el.classList.toggle('active', el.dataset.theme === settings.activeTheme);
   });
+  renderGuide(settings.activeTheme);
+}
+
+function renderGuide(themeId) {
+  const body = $('guideBody');
+  if (!body) return;
+  const themes = window.KeyUpThemes || {};
+  const guide = (themes[themeId] && themes[themeId].guide)
+    || (themes.fighting && themes.fighting.guide);
+  if (!guide) {
+    body.textContent = '';
+    return;
+  }
+  const parts = [`<div class="guide-title">${guide.title}</div>`];
+  for (const g of guide.groups) {
+    parts.push(`<div class="guide-group"><div class="guide-group-label">${g.label}</div>`);
+    for (const it of g.items) {
+      const keys = it.keys.map((k) => `<kbd>${k}</kbd>`).join(' ');
+      parts.push(
+        `<div class="guide-item">` +
+          `<span class="guide-icon">${it.icon || ''}</span>` +
+          `<span class="guide-keys">${keys}</span>` +
+          `<span class="guide-arrow">→</span>` +
+          `<span class="guide-sound">${it.sound}</span>` +
+        `</div>`
+      );
+    }
+    parts.push(`</div>`);
+  }
+  body.innerHTML = parts.join('');
 }
 
 function save(patch) {
@@ -67,6 +97,7 @@ document.querySelectorAll('.theme-option').forEach((el) => {
     save({ activeTheme: themeId });
     document.querySelectorAll('.theme-option').forEach((o) => o.classList.remove('active'));
     el.classList.add('active');
+    renderGuide(themeId);
   });
 });
 
