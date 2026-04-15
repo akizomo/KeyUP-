@@ -3,7 +3,7 @@
   "name": "Key↑",
   "version": "0.2.0",
   "default_locale": "en",
-  "description": "Type. Power up. Repeat. A typing SE extension that powers up as you go.",
+  "description": "__MSG_extensionDescription__",
   "permissions": ["storage", "offscreen"],
   "background": {
     "service_worker": "background.js"

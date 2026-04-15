@@ -1,4 +1,5 @@
 {
+  "extensionDescription": { "message": "タイピングを格闘ゲームの打撃に。パンチ・キックSE、スタジアムの歓声BGM、コンボ歓声、Cmd+EnterでKO。すべてオフライン動作、トラッキングなし。" },
   "appTagline":       { "message": "Type. Power up. Repeat." },
   "themeFighting":    { "message": "格闘ゲーム" },
   "themeArcade":      { "message": "アーケード" },
