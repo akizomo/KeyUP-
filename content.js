@@ -1,5 +1,13 @@
 // Key↑ content script — forwards DOM events to the offscreen audio document
 // and renders the Lv3 particle burst when offscreen announces it via storage.
+//
+// PRIVACY: This script does NOT log, store, or transmit keystroke content.
+//   On keydown we only look at `e.key` to classify it into a small set of
+//   audio triggers ('enter' | 'cmdEnter' | 'key' + tier 'small'|'mid'|'large').
+//   The actual character typed is never sent anywhere. No data leaves the
+//   user's device — there is no network call in this extension. Password
+//   field keystrokes produce the same generic 'key' message as any other
+//   keystroke. See docs/privacy.html for the full privacy policy.
 
 (function () {
   'use strict';

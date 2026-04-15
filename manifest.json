@@ -5,7 +5,6 @@
   "default_locale": "en",
   "description": "Type. Power up. Repeat. A typing SE extension that powers up as you go.",
   "permissions": ["storage", "offscreen"],
-  "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "background.js"
   },
@@ -14,31 +13,6 @@
       "matches": ["<all_urls>"],
       "js": ["content.js"],
       "run_at": "document_idle"
-    }
-  ],
-  "web_accessible_resources": [
-    {
-      "resources": [
-        "offscreen.html",
-        "offscreen.js",
-        "themes/arcade.js",
-        "themes/fighting.js",
-        "vendor/Tone.js",
-        "assets/punch_small.mp3",
-        "assets/punch_mid.mp3",
-        "assets/punch_large.mp3",
-        "assets/kick_small.mp3",
-        "assets/kick_mid.mp3",
-        "assets/kick_large.mp3",
-        "assets/stadium.mp3",
-        "assets/cheer_short.mp3",
-        "assets/cheer_mid.mp3",
-        "assets/cheer_long.mp3",
-        "assets/ko_gong.mp3",
-        "assets/ko_voice.mp3",
-        "assets/punch_whoosh.mp3"
-      ],
-      "matches": ["<all_urls>"]
     }
   ],
   "action": {

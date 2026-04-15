@@ -19,8 +19,8 @@
   --secondary-dim:      #00edbd;
   --tertiary:           #ff7074;
 
-  --font-headline: 'Tektur', 'Noto Sans JP', system-ui, sans-serif;
-  --font-body:     'Rajdhani', 'Noto Sans JP', system-ui, sans-serif;
+  --font-headline: 'Tektur', 'Hiragino Sans', 'Yu Gothic', system-ui, sans-serif;
+  --font-body:     'Rajdhani', 'Hiragino Sans', 'Yu Gothic', system-ui, sans-serif;
 }
 
 * { box-sizing: border-box; }
