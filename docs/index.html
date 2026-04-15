@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>KeyUp | Every Keystroke is a Strike</title>
+<meta name="description" content="KeyUp turns your keyboard into a weapon. Type. Fight. Win." />
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Tektur:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          primary: "#ffdd7c",
+          "primary-container": "#fecb00",
+          "on-primary-container": "#584500",
+          secondary: "#00fcca",
+          "secondary-dim": "#00edbd",
+          tertiary: "#ff7074",
+          "tertiary-dim": "#e90237",
+          surface: "#0d0d16",
+          "surface-container": "#191923",
+          "surface-container-high": "#1f1e2a",
+          "surface-container-highest": "#252532",
+          "on-surface": "#e7e4f1",
+          "on-surface-variant": "#aca9b6",
+          outline: "#767480",
+          "outline-variant": "#484751",
+        },
+        fontFamily: {
+          headline: ["Tektur", "sans-serif"],
+          body: ["Rajdhani", "Noto Sans JP", "sans-serif"],
+          jp: ["Noto Sans JP", "sans-serif"],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: #0d0d16;
+    color: #e7e4f1;
+    font-family: "Rajdhani", "Noto Sans JP", sans-serif;
+  }
+  .scanlines {
+    position: fixed; inset: 0;
+    background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.1) 50%),
+                linear-gradient(90deg, rgba(255,0,0,0.02), rgba(0,255,0,0.01), rgba(0,255,0,0.02));
+    background-size: 100% 3px, 3px 100%;
+    pointer-events: none; z-index: 100;
+  }
+  .pixel-grid {
+    background-image: radial-gradient(rgba(255,221,124,0.05) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  }
+  @keyframes ko-flash {
+    0%   { opacity: 0; transform: scale(0.5) rotate(-5deg); }
+    15%  { opacity: 1; transform: scale(1.15) rotate(-5deg); }
+    85%  { opacity: 1; transform: scale(1) rotate(-5deg); }
+    100% { opacity: 0; transform: scale(1) rotate(-5deg); }
+  }
+  .ko-anim { animation: ko-flash 2.2s forwards; }
+  @keyframes combo-pop {
+    0%   { transform: scale(0.9); }
+    40%  { transform: scale(1.25); }
+    100% { transform: scale(1); }
+  }
+  .combo-pop { animation: combo-pop 180ms ease-out; }
+  @keyframes hp-shake {
+    0%,100% { transform: translateX(0); }
+    25%     { transform: translateX(-4px); }
+    75%     { transform: translateX(4px); }
+  }
+  .hp-shake { animation: hp-shake 150ms ease-in-out; }
+  .arena-input {
+    caret-color: #ffdd7c;
+  }
+  .arena-input:empty::before {
+    content: attr(data-placeholder);
+    color: #94a3b8;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body class="bg-surface selection:bg-primary-container selection:text-on-primary-container">
+<div class="scanlines"></div>
+
+<!-- ============================ NAVBAR ============================ -->
+<nav class="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-xl border-b-2 border-amber-400/20 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+  <div class="flex justify-between items-center px-4 sm:px-6 h-16 max-w-7xl mx-auto">
+    <a href="#top" class="flex items-center">
+      <img src="assets/logo.svg" alt="KeyUp" class="h-7 sm:h-8 w-auto" />
+    </a>
+    <div class="hidden md:flex gap-8 font-headline uppercase tracking-tighter items-center text-sm">
+      <a href="#arena" class="text-cyan-400 border-b-2 border-cyan-400 pb-1 hover:text-amber-300 transition-all">Arena</a>
+      <a href="#controls" class="text-slate-400 hover:text-amber-300 transition-all">Controls</a>
+      <a href="#roadmap" class="text-slate-400 hover:text-amber-300 transition-all">Roadmap</a>
+    </div>
+    <a href="#cta" class="bg-primary-container text-on-primary-container font-bold px-4 sm:px-6 py-2 rounded-md hover:shadow-[0_0_15px_rgba(255,221,124,0.3)] transition-all active:scale-95 duration-75 uppercase text-xs sm:text-sm font-headline">
+      Insert Coin
+    </a>
+  </div>
+</nav>
+
+<main id="top" class="relative pt-16 pixel-grid">
+
+  <!-- ============================ HERO ============================ -->
+  <section class="relative min-h-[640px] md:min-h-[820px] flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-surface-container/30 to-surface pointer-events-none"></div>
+    <div class="relative z-10 max-w-5xl">
+      <div class="inline-block px-4 py-1 mb-6 border border-secondary text-secondary font-mono text-[10px] sm:text-xs tracking-[0.3em] uppercase bg-secondary/10">
+        System Version 2.0.4 // Active
+      </div>
+      <h1 class="font-headline text-4xl sm:text-6xl md:text-8xl font-black italic text-primary drop-shadow-[0_0_30px_rgba(255,221,124,0.4)] tracking-tighter mb-4 uppercase">
+        Every keystroke<br/>is a strike.
+      </h1>
+      <p class="font-jp text-lg sm:text-2xl md:text-3xl text-secondary-dim font-bold tracking-tight mb-8">
+        打鍵するたびに、技が出る。
+      </p>
+      <div class="mb-10 space-y-2">
+        <p class="font-headline text-base sm:text-lg md:text-xl text-on-surface-variant font-medium">
+          Type. Fight. Win. KeyUp turns your keyboard into a weapon.
+        </p>
+        <p class="font-jp text-sm sm:text-base md:text-lg text-outline font-medium">
+          キーボードが武器になる。タイピングするだけで、格闘ゲームが始まる。
+        </p>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a href="#cta" class="px-8 sm:px-10 py-4 sm:py-5 bg-primary-container text-on-primary-container font-black text-lg sm:text-xl rounded-md skew-x-[-12deg] hover:shadow-[0_0_25px_rgba(255,221,124,0.6)] transition-all active:translate-y-1 font-headline uppercase">
+          Add to Chrome — Free
+        </a>
+        <a href="#arena" class="px-8 sm:px-10 py-4 sm:py-5 border-2 border-secondary-dim text-secondary-dim font-black text-lg sm:text-xl rounded-md skew-x-[-12deg] hover:bg-secondary/10 transition-all font-headline uppercase">
+          Try the Arena
+        </a>
+      </div>
+    </div>
+    <div class="absolute bottom-6 animate-bounce">
+      <span class="material-symbols-outlined text-outline">keyboard_double_arrow_down</span>
+    </div>
+  </section>
+
+  <!-- ============================ ARENA ============================ -->
+  <section id="arena" class="max-w-7xl mx-auto px-4 sm:px-6 py-20 sm:py-24 relative">
+    <div class="text-center mb-12 sm:mb-16">
+      <h2 class="font-headline text-4xl sm:text-5xl md:text-6xl font-black italic uppercase tracking-tighter mb-2">Enter the arena.</h2>
+      <p class="font-jp text-lg sm:text-2xl text-secondary font-medium">アリーナへ。</p>
+      <div class="mt-4 max-w-2xl mx-auto">
+        <p class="font-headline text-base sm:text-lg text-on-surface-variant">Type in the field below. Your keyboard becomes a fighter.</p>
+        <p class="font-jp text-xs sm:text-sm text-outline mt-1 font-medium">下のエリアでタイピングするだけ。格闘ゲームが始まる。</p>
+      </div>
+    </div>
+
+    <!-- Browser mockup -->
+    <div class="bg-surface-container-high rounded-xl overflow-hidden border-2 border-primary/30 shadow-[0_0_40px_rgba(0,0,0,0.6)]">
+      <div class="bg-surface-container-highest px-4 py-3 flex items-center gap-2 border-b border-outline-variant">
+        <div class="flex gap-1.5">
+          <div class="w-3 h-3 rounded-full bg-tertiary-dim"></div>
+          <div class="w-3 h-3 rounded-full bg-primary"></div>
+          <div class="w-3 h-3 rounded-full bg-secondary-dim"></div>
+        </div>
+        <div class="mx-auto bg-surface px-4 sm:px-6 py-1 rounded-full text-[10px] sm:text-xs text-outline font-mono tracking-wider truncate max-w-[60%]">mail.google.com/compose</div>
+      </div>
+
+      <!-- Gmail-style composer with fighting HUD -->
+      <div class="relative min-h-[420px] sm:min-h-[520px] bg-white text-slate-900 overflow-hidden">
+        <!-- Fighting HUD -->
+        <div class="absolute inset-x-0 top-0 p-4 sm:p-6 pointer-events-none z-30">
+          <div class="flex justify-between items-center gap-3">
+            <div class="w-5/12">
+              <div id="hp-player-wrap" class="h-5 sm:h-6 bg-slate-900 border-2 border-primary p-0.5 skew-x-[-10deg]">
+                <div id="hp-player" class="h-full bg-primary shadow-[0_0_10px_#ffcc00] transition-[width] duration-300" style="width:100%"></div>
+              </div>
+              <div class="text-[9px] sm:text-[10px] font-black italic mt-1 text-slate-900 font-headline uppercase">You [P1]</div>
+            </div>
+            <div class="font-headline font-black text-2xl sm:text-4xl italic text-slate-900 px-2 -skew-x-12">RD 1</div>
+            <div class="w-5/12">
+              <div id="hp-boss-wrap" class="h-5 sm:h-6 bg-slate-900 border-2 border-tertiary-dim p-0.5 flex justify-end skew-x-[-10deg]">
+                <div id="hp-boss" class="h-full bg-tertiary-dim shadow-[0_0_10px_#ff7074] transition-[width] duration-300" style="width:100%"></div>
+              </div>
+              <div class="text-[9px] sm:text-[10px] font-black italic mt-1 text-slate-900 font-headline uppercase text-right">Boss [CPU]</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Combo counter -->
+        <div id="combo-wrap" class="absolute top-20 sm:top-24 right-4 sm:right-12 text-right opacity-0 transition-opacity duration-200 pointer-events-none z-30">
+          <div id="combo-count" class="font-headline text-4xl sm:text-6xl font-black italic text-secondary drop-shadow-[0_0_12px_rgba(0,252,202,0.6)]">0 HIT</div>
+          <div class="font-headline text-lg sm:text-2xl font-black tracking-[0.2em] text-slate-900 uppercase">Combo</div>
+        </div>
+
+        <!-- K.O. flash -->
+        <div id="ko-flash" class="absolute inset-0 flex items-center justify-center opacity-0 pointer-events-none z-40">
+          <div class="bg-primary px-12 sm:px-20 py-6 sm:py-10 rotate-[-5deg] border-8 border-slate-900 shadow-[0_0_100px_rgba(255,204,0,0.8)]">
+            <h2 class="font-headline text-6xl sm:text-9xl font-black italic text-slate-900 tracking-tighter">K.O!!</h2>
+          </div>
+        </div>
+
+        <!-- Gmail composer -->
+        <div class="p-6 sm:p-8 pt-28 sm:pt-32 h-full flex flex-col relative z-10">
+          <div class="border-b border-slate-100 pb-3 mb-3">
+            <div class="text-xs sm:text-sm flex gap-2 mb-2"><span class="text-slate-400">To:</span><span class="font-medium">boss@company.com</span></div>
+            <div class="text-xs sm:text-sm flex gap-2"><span class="text-slate-400">Subject:</span><span class="font-medium">Project Update</span></div>
+          </div>
+          <div id="arena-input"
+               class="arena-input flex-grow font-body text-base sm:text-lg leading-relaxed text-slate-700 outline-none min-h-[140px] whitespace-pre-wrap"
+               contenteditable="true"
+               spellcheck="false"
+               data-placeholder="ここにタイピング / Start typing here…"></div>
+          <div class="mt-auto pt-4 flex justify-end">
+            <button id="ko-send" class="bg-primary hover:bg-[#fecb00] active:scale-95 px-6 sm:px-8 py-2.5 sm:py-3 font-black text-slate-900 rounded-sm shadow-md uppercase tracking-widest text-xs sm:text-sm font-headline transition-colors">
+              Send <span class="text-[10px] ml-1 opacity-60">⌘↵</span>
+            </button>
+          </div>
+        </div>
+        <div class="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.05)_1px,transparent_1px)] bg-[length:100%_4px] pointer-events-none opacity-20"></div>
+      </div>
+    </div>
+
+    <p class="mt-6 text-center text-xs text-outline font-mono tracking-widest uppercase">
+      Tip: Click the arena first to enable audio · オーディオを有効にするにはエリアをクリック
+    </p>
+  </section>
+
+  <!-- ============================ CONTROLS ============================ -->
+  <section id="controls" class="max-w-4xl mx-auto px-4 sm:px-6 py-20 sm:py-24 relative border-t border-outline-variant/30">
+    <div class="text-center mb-12">
+      <h2 class="font-headline text-4xl sm:text-5xl md:text-6xl font-black italic uppercase tracking-tighter mb-2">Frame data.</h2>
+      <p class="font-jp text-lg sm:text-2xl text-secondary font-medium">コマンド表。</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-outline-variant/30 border border-outline-variant">
+      <div class="bg-surface-container p-5 sm:p-6 flex justify-between items-center hover:bg-surface-container-high transition-colors">
+        <div class="font-mono text-primary font-bold text-base sm:text-lg">A–Z</div>
+        <div class="text-right">
+          <div class="font-headline font-bold uppercase text-on-surface text-sm sm:text-base">Light punch / kick</div>
+          <div class="text-xs text-outline font-jp">（小技）</div>
+        </div>
+      </div>
+      <div class="bg-surface-container p-5 sm:p-6 flex justify-between items-center hover:bg-surface-container-high transition-colors">
+        <div class="font-mono text-primary font-bold text-base sm:text-lg">、。 , . Space</div>
+        <div class="text-right">
+          <div class="font-headline font-bold uppercase text-on-surface text-sm sm:text-base">Medium strike</div>
+          <div class="text-xs text-outline font-jp">（中技）</div>
+        </div>
+      </div>
+      <div class="bg-surface-container p-5 sm:p-6 flex justify-between items-center hover:bg-surface-container-high transition-colors">
+        <div class="font-mono text-primary font-bold text-base sm:text-lg">Enter</div>
+        <div class="text-right">
+          <div class="font-headline font-bold uppercase text-on-surface text-sm sm:text-base">Heavy kick</div>
+          <div class="text-xs text-outline font-jp">（大技・改行）</div>
+        </div>
+      </div>
+      <div class="bg-surface-container p-5 sm:p-6 flex justify-between items-center hover:bg-surface-container-high transition-colors">
+        <div class="font-mono text-secondary font-bold text-base sm:text-lg">⌘ Enter</div>
+        <div class="text-right">
+          <div class="font-headline font-bold uppercase text-secondary text-sm sm:text-base">K.O !!</div>
+          <div class="text-xs text-outline font-jp">（送信）</div>
+        </div>
+      </div>
+      <div class="bg-surface-container p-5 sm:p-6 flex justify-between items-center md:col-span-2 hover:bg-surface-container-high transition-colors">
+        <div class="font-mono text-outline font-bold text-base sm:text-lg italic">Stop typing</div>
+        <div class="text-right">
+          <div class="font-headline font-bold uppercase text-outline text-sm sm:text-base">Silence — BGM fades</div>
+          <div class="text-xs text-outline/70 font-jp">（静寂）</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ ROADMAP ============================ -->
+  <section id="roadmap" class="max-w-7xl mx-auto px-4 sm:px-6 py-20 sm:py-24 relative border-t border-outline-variant/30">
+    <div class="text-center mb-12 sm:mb-16">
+      <h2 class="font-headline text-4xl sm:text-5xl md:text-6xl font-black italic uppercase tracking-tighter mb-2">What's next.</h2>
+      <p class="font-jp text-lg sm:text-2xl text-secondary font-medium">これから。</p>
+      <div class="mt-4 max-w-2xl mx-auto">
+        <p class="font-headline text-base sm:text-lg text-on-surface-variant">KeyUp starts free. More worlds are coming.</p>
+        <p class="font-jp text-xs sm:text-sm text-outline mt-1 font-medium">今は無料。次の世界が来る。</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+      <div class="relative bg-surface-container p-6 sm:p-8 border-2 border-primary shadow-[0_0_15px_rgba(255,204,0,0.3)] flex flex-col transition-all hover:scale-[1.02]">
+        <div class="absolute -top-3 left-6 bg-primary text-[#413200] px-3 py-0.5 text-[10px] font-black uppercase tracking-widest shadow-[0_0_10px_rgba(255,204,0,0.5)] font-headline">Available Now</div>
+        <h3 class="font-headline text-3xl sm:text-4xl font-black italic uppercase text-primary mb-4">Fighting</h3>
+        <div class="flex-grow space-y-3 mb-6">
+          <p class="leading-relaxed text-on-surface">Stadium crowd. Punch and kick SFX. KO on send. The original KeyUp experience.</p>
+          <p class="font-jp text-xs text-outline font-bold">スタジアム・パンチ・キック・KO。</p>
+        </div>
+        <div class="pt-4 border-t border-outline-variant">
+          <div class="font-mono text-2xl text-primary font-black">00 CREDITS</div>
+          <div class="text-[10px] text-outline font-bold uppercase tracking-widest">Free forever</div>
+        </div>
+      </div>
+      <div class="relative bg-surface-container/50 p-6 sm:p-8 border-2 border-outline-variant flex flex-col opacity-80 hover:opacity-100 transition-all">
+        <div class="absolute -top-3 left-6 bg-[#006b54] text-[#dffff1] px-3 py-0.5 text-[10px] font-black uppercase tracking-widest font-headline">Coming Soon</div>
+        <div class="flex justify-between items-start mb-4">
+          <h3 class="font-headline text-3xl sm:text-4xl font-black italic uppercase text-on-surface-variant">Arcade</h3>
+          <span class="material-symbols-outlined text-outline">lock</span>
+        </div>
+        <div class="flex-grow space-y-3 mb-6">
+          <p class="leading-relaxed text-outline">Retro 8-bit chiptune BGM builds as you type. Dark arcade atmosphere.</p>
+          <p class="font-jp text-xs text-outline/70 font-bold">レトロ8bit。タイピングでBGMが重なる。</p>
+        </div>
+        <div class="pt-4 border-t border-outline-variant">
+          <div class="font-mono text-2xl text-outline font-black">-- CREDITS</div>
+          <div class="text-[10px] text-outline/70 font-bold uppercase tracking-widest">$2.99 USD</div>
+        </div>
+      </div>
+      <div class="relative bg-surface-container/30 p-6 sm:p-8 border-2 border-outline-variant/50 flex flex-col grayscale hover:grayscale-0 transition-all">
+        <div class="absolute -top-3 left-6 bg-outline-variant text-on-surface-variant px-3 py-0.5 text-[10px] font-black uppercase tracking-widest font-headline">And More…</div>
+        <div class="flex justify-between items-start mb-4">
+          <h3 class="font-headline text-3xl sm:text-4xl font-black italic uppercase text-outline">More Worlds</h3>
+          <span class="material-symbols-outlined text-outline/30">question_mark</span>
+        </div>
+        <div class="flex-grow space-y-3 mb-6">
+          <p class="leading-relaxed text-outline/60">New themes dropping regularly. Each one a different world to type in.</p>
+          <p class="font-jp text-xs text-outline/50 font-bold">新しい世界が続く。</p>
+        </div>
+        <div class="pt-4 border-t border-outline-variant/50">
+          <div class="font-mono text-2xl text-outline/50 font-black">-- CREDITS</div>
+          <div class="text-[10px] text-outline/40 font-bold uppercase tracking-widest">$2.99 each</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ CTA ============================ -->
+  <section id="cta" class="relative py-28 sm:py-40 overflow-hidden bg-surface-container-highest">
+    <div class="absolute inset-0 opacity-10 pointer-events-none">
+      <div class="h-full flex flex-col justify-center font-headline font-black text-[8rem] sm:text-[14rem] md:text-[20rem] leading-none whitespace-nowrap -rotate-12 select-none">
+        <div class="animate-pulse">FIGHT</div>
+        <div class="ml-20 sm:ml-40">EVERY</div>
+        <div class="ml-40 sm:ml-80">DAY</div>
+      </div>
+    </div>
+    <div class="relative z-10 text-center flex flex-col items-center px-4">
+      <h2 class="font-headline text-5xl sm:text-6xl md:text-8xl font-black italic mb-2 tracking-tighter drop-shadow-lg">FIGHT.<br/>EVERY.<br/>DAY.</h2>
+      <div class="w-24 sm:w-32 h-2 bg-primary mb-10 sm:mb-12"></div>
+      <div class="group relative">
+        <div class="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+        <button class="relative px-8 sm:px-12 py-5 sm:py-6 bg-primary-container text-on-primary-container font-black text-lg sm:text-2xl rounded-md flex items-center gap-4 transition-transform active:scale-95 font-headline uppercase">
+          Add to Chrome — Free
+          <span class="material-symbols-outlined">rocket_launch</span>
+        </button>
+      </div>
+      <p class="mt-8 text-outline font-mono text-[10px] sm:text-xs tracking-widest uppercase">Join 50,000+ competitors worldwide</p>
+    </div>
+  </section>
+
+  <!-- ============================ FOOTER ============================ -->
+  <footer class="w-full py-12 bg-slate-950 flex flex-col items-center gap-6 px-4 border-t-4 border-double border-slate-800">
+    <img src="assets/logo.svg" alt="KeyUp" class="h-7 w-auto" />
+    <div class="flex flex-wrap justify-center gap-6 sm:gap-8 font-mono text-[10px] sm:text-xs tracking-widest uppercase text-slate-500">
+      <a href="#" class="hover:text-cyan-300 transition-colors">Terms</a>
+      <a href="#" class="hover:text-cyan-300 transition-colors">Privacy</a>
+      <a href="#" class="hover:text-cyan-300 transition-colors">Hardware</a>
+      <a href="#" class="hover:text-cyan-300 transition-colors">Support</a>
+    </div>
+    <div class="text-slate-500 font-mono text-[10px] sm:text-xs tracking-widest uppercase mt-2 text-center">
+      © 199X NEON KINETIC SYSTEMS. ALL RIGHTS RESERVED.
+    </div>
+  </footer>
+</main>
+
+<script>
+// ==================== KeyUp Arena — vanilla Web Audio ====================
+(() => {
+  const ASSETS = 'assets/';
+  const HIT_FILES = {
+    small: ['punch_small.mp3', 'kick_small.mp3'],
+    mid:   ['punch_mid.mp3',   'kick_mid.mp3'],
+    large: ['punch_large.mp3', 'kick_large.mp3'],
+  };
+  const CHEER_FILES = {
+    1: 'cheer_short.mp3',
+    2: 'cheer_mid.mp3',
+    3: 'cheer_long.mp3',
+  };
+  const COMBO_LV = { 1: 5, 2: 15, 3: 30 };
+  const CHEER_COOLDOWN_MS = 1500;
+  const COMBO_RESET_MS = 2000;
+  const BGM_IDLE_MS = 2000;
+  const BGM_FADE_S = 0.8;
+  const MASTER_VOL = 0.55;
+
+  let ctx = null;
+  const buffers = new Map(); // url -> AudioBuffer
+  let masterGain = null;
+
+  // BGM state
+  let bgmSource = null;
+  let bgmGain = null;
+  let bgmActive = false;
+  let bgmIdleTimer = null;
+
+  // Combo state
+  let comboCount = 0;
+  let comboLevel = 0;
+  let comboResetTimer = null;
+  let lastCheerAt = 0;
+
+  // HP state
+  let playerHP = 100;
+  let bossHP = 100;
+
+  function ensureCtx() {
+    if (ctx) return ctx;
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    masterGain = ctx.createGain();
+    masterGain.gain.value = MASTER_VOL;
+    masterGain.connect(ctx.destination);
+    preload();
+    return ctx;
+  }
+
+  async function load(file) {
+    if (buffers.has(file)) return buffers.get(file);
+    try {
+      const res = await fetch(ASSETS + file);
+      const ab = await res.arrayBuffer();
+      const buf = await ctx.decodeAudioData(ab);
+      buffers.set(file, buf);
+      return buf;
+    } catch (e) {
+      console.warn('[KeyUp] load failed', file, e);
+      return null;
+    }
+  }
+
+  function preload() {
+    const files = [
+      ...HIT_FILES.small, ...HIT_FILES.mid, ...HIT_FILES.large,
+      CHEER_FILES[1], CHEER_FILES[2], CHEER_FILES[3],
+      'ko_gong.mp3', 'ko_voice.mp3', 'stadium.mp3',
+    ];
+    files.forEach(load);
+  }
+
+  function play(file, { rate = 1, gain = 1, loop = false } = {}) {
+    const buf = buffers.get(file);
+    if (!buf) { load(file); return null; }
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    src.playbackRate.value = rate;
+    src.loop = loop;
+    const g = ctx.createGain();
+    g.gain.value = gain;
+    src.connect(g);
+    g.connect(masterGain);
+    src.start(0);
+    return { src, gain: g };
+  }
+
+  function playHit(tier) {
+    const pool = HIT_FILES[tier] || HIT_FILES.small;
+    const file = pool[Math.random() < 0.5 ? 0 : 1];
+    const variance = (Math.random() * 0.1) - 0.05;
+    play(file, { rate: 1 + variance, gain: 1.1 });
+  }
+
+  function playCheer(level) {
+    const now = Date.now();
+    if (now - lastCheerAt < CHEER_COOLDOWN_MS) return;
+    lastCheerAt = now;
+    const file = CHEER_FILES[level] || CHEER_FILES[1];
+    play(file, { gain: 0.9 });
+  }
+
+  // ----- BGM -----
+  async function startBGM() {
+    if (bgmActive) return;
+    const buf = buffers.get('stadium.mp3') || await load('stadium.mp3');
+    if (!buf) return;
+    bgmActive = true;
+    bgmSource = ctx.createBufferSource();
+    bgmSource.buffer = buf;
+    bgmSource.loop = true;
+    bgmGain = ctx.createGain();
+    bgmGain.gain.value = 0;
+    bgmSource.connect(bgmGain);
+    bgmGain.connect(masterGain);
+    bgmSource.start(0);
+    bgmGain.gain.linearRampToValueAtTime(0.25, ctx.currentTime + 0.4);
+  }
+
+  function stopBGM() {
+    if (!bgmActive || !bgmGain || !bgmSource) return;
+    bgmActive = false;
+    const end = ctx.currentTime + BGM_FADE_S;
+    try {
+      bgmGain.gain.cancelScheduledValues(ctx.currentTime);
+      bgmGain.gain.setValueAtTime(bgmGain.gain.value, ctx.currentTime);
+      bgmGain.gain.linearRampToValueAtTime(0, end);
+    } catch (_) {}
+    const s = bgmSource;
+    setTimeout(() => { try { s.stop(); } catch (_) {} }, BGM_FADE_S * 1000 + 80);
+    bgmSource = null;
+    bgmGain = null;
+  }
+
+  function bumpBgmIdle() {
+    if (bgmIdleTimer) clearTimeout(bgmIdleTimer);
+    bgmIdleTimer = setTimeout(() => { bgmIdleTimer = null; stopBGM(); }, BGM_IDLE_MS);
+  }
+
+  // ----- Combo UI -----
+  const comboWrap = document.getElementById('combo-wrap');
+  const comboEl = document.getElementById('combo-count');
+  const hpBoss = document.getElementById('hp-boss');
+  const hpPlayer = document.getElementById('hp-player');
+  const hpBossWrap = document.getElementById('hp-boss-wrap');
+
+  function renderCombo() {
+    if (comboCount <= 0) {
+      comboWrap.style.opacity = '0';
+      return;
+    }
+    comboEl.textContent = comboCount + ' HIT';
+    comboWrap.style.opacity = '1';
+    comboEl.classList.remove('combo-pop');
+    void comboEl.offsetWidth;
+    comboEl.classList.add('combo-pop');
+  }
+
+  function bumpCombo() {
+    comboCount += 1;
+    const newLv = comboCount >= COMBO_LV[3] ? 3
+                : comboCount >= COMBO_LV[2] ? 2
+                : comboCount >= COMBO_LV[1] ? 1 : 0;
+    if (newLv > comboLevel) {
+      comboLevel = newLv;
+      playCheer(newLv);
+    }
+    renderCombo();
+    if (comboResetTimer) clearTimeout(comboResetTimer);
+    comboResetTimer = setTimeout(resetCombo, COMBO_RESET_MS);
+  }
+
+  function resetCombo() {
+    if (comboResetTimer) { clearTimeout(comboResetTimer); comboResetTimer = null; }
+    comboCount = 0;
+    comboLevel = 0;
+    renderCombo();
+  }
+
+  // ----- HP -----
+  function damageBoss(amount) {
+    bossHP = Math.max(0, bossHP - amount);
+    hpBoss.style.width = bossHP + '%';
+    hpBossWrap.classList.remove('hp-shake');
+    void hpBossWrap.offsetWidth;
+    hpBossWrap.classList.add('hp-shake');
+  }
+
+  function resetHP() {
+    bossHP = 100;
+    playerHP = 100;
+    hpBoss.style.width = '100%';
+    hpPlayer.style.width = '100%';
+  }
+
+  // ----- KO -----
+  function playKO() {
+    play('ko_gong.mp3', { gain: 1.0 });
+    setTimeout(() => play('ko_voice.mp3', { gain: 1.0 }), 80);
+    play(CHEER_FILES[3], { gain: 0.85 });
+    lastCheerAt = Date.now();
+    const flash = document.getElementById('ko-flash');
+    flash.classList.remove('ko-anim');
+    void flash.offsetWidth;
+    flash.classList.add('ko-anim');
+    bossHP = 0;
+    hpBoss.style.width = '0%';
+    resetCombo();
+    setTimeout(resetHP, 2400);
+    stopBGM();
+  }
+
+  // ----- Input handling -----
+  const input = document.getElementById('arena-input');
+  const sendBtn = document.getElementById('ko-send');
+
+  function isMidChar(k) {
+    return k === ' ' || k === ',' || k === '.' || k === '!' || k === '?' || k === '、' || k === '。' || k === 'Tab';
+  }
+
+  input.addEventListener('keydown', async (e) => {
+    ensureCtx();
+    if (ctx.state === 'suspended') { try { await ctx.resume(); } catch (_) {} }
+
+    // Cmd/Ctrl + Enter = KO
+    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault();
+      playKO();
+      return;
+    }
+    // Enter = heavy
+    if (e.key === 'Enter') {
+      playHit('large');
+      bumpCombo();
+      damageBoss(6);
+      if (!bgmActive) startBGM();
+      bumpBgmIdle();
+      return;
+    }
+    // Ignore modifier-only / nav keys
+    if (e.key.length > 1 && e.key !== 'Tab' && e.key !== ' ') return;
+
+    const tier = isMidChar(e.key) ? 'mid' : 'small';
+    playHit(tier);
+    bumpCombo();
+    damageBoss(tier === 'mid' ? 3 : 2);
+    if (!bgmActive) startBGM();
+    bumpBgmIdle();
+  });
+
+  sendBtn.addEventListener('click', async () => {
+    ensureCtx();
+    if (ctx.state === 'suspended') { try { await ctx.resume(); } catch (_) {} }
+    playKO();
+  });
+
+  // First interaction unlocks audio
+  document.addEventListener('click', () => { ensureCtx(); if (ctx && ctx.state === 'suspended') ctx.resume(); }, { once: true });
+})();
+</script>
+</body>
+</html>

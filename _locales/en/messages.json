@@ -1,6 +1,5 @@
 {
   "appTagline":       { "message": "Type. Power up. Repeat." },
-  "themeLabel":       { "message": "THEME" },
   "themeFighting":    { "message": "Fighting" },
   "themeArcade":      { "message": "Arcade" },
   "volumeLabel":      { "message": "🔊 Volume" },
@@ -9,9 +8,5 @@
   "invincibleBGMLabel":{ "message": "🎮 Invincible BGM" },
   "guideTitle":       { "message": "🎵 Sound Guide" },
   "statsTodayTime":   { "message": "Today's invincible time" },
-  "statsBestStreak":  { "message": "Best streak" },
-  "unitMin":          { "message": "min" },
-  "unitSec":          { "message": "sec" },
-  "zeroMin":          { "message": "0 min" },
-  "zeroSec":          { "message": "0 sec" }
+  "statsBestStreak":  { "message": "Best streak" }
 }

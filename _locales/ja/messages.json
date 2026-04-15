@@ -1,6 +1,5 @@
 {
   "appTagline":       { "message": "Type. Power up. Repeat." },
-  "themeLabel":       { "message": "テーマ" },
   "themeFighting":    { "message": "格闘ゲーム" },
   "themeArcade":      { "message": "アーケード" },
   "volumeLabel":      { "message": "🔊 音量" },
@@ -9,9 +8,5 @@
   "invincibleBGMLabel":{ "message": "🎮 無敵BGM" },
   "guideTitle":       { "message": "🎵 サウンドガイド" },
   "statsTodayTime":   { "message": "今日の無敵時間" },
-  "statsBestStreak":  { "message": "最高連続" },
-  "unitMin":          { "message": "分" },
-  "unitSec":          { "message": "秒" },
-  "zeroMin":          { "message": "0分" },
-  "zeroSec":          { "message": "0秒" }
+  "statsBestStreak":  { "message": "最高連続" }
 }

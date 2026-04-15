@@ -9,14 +9,15 @@ const DEFAULTS = {
 const $ = (id) => document.getElementById(id);
 
 const LANG = (chrome.i18n.getUILanguage() || 'en').toLowerCase().startsWith('ja') ? 'ja' : 'en';
-const t = (key) => chrome.i18n.getMessage(key) || key;
-const JOIN = LANG === 'ja' ? '' : ' ';
+const UNIT = LANG === 'ja'
+  ? { min: '分', sec: '秒' }
+  : { min: ' min', sec: ' sec' };
 
 function applyStaticI18n() {
   document.documentElement.lang = LANG;
   document.querySelectorAll('[data-i18n]').forEach((el) => {
-    const msg = t(el.dataset.i18n);
-    if (msg) el.textContent = msg;
+    const msg = chrome.i18n.getMessage(el.dataset.i18n);
+    if (msg) el.textContent = msg; // keep HTML fallback on miss
   });
 }
 
@@ -26,22 +27,21 @@ function todayKey() {
 }
 
 function formatMinutes(ms) {
-  if (!ms) return t('zeroMin');
+  if (!ms) return `0${UNIT.min}`;
   const totalSec = Math.floor(ms / 1000);
-  if (totalSec < 60) return `${totalSec}${JOIN}${t('unitSec')}`;
+  if (totalSec < 60) return `${totalSec}${UNIT.sec}`;
   const min = Math.floor(totalSec / 60);
   const sec = totalSec % 60;
-  const minStr = `${min}${JOIN}${t('unitMin')}`;
-  return sec > 0 ? `${minStr}${JOIN}${sec}${JOIN}${t('unitSec')}` : minStr;
+  return sec > 0 ? `${min}${UNIT.min}${sec}${UNIT.sec}` : `${min}${UNIT.min}`;
 }
 
 function formatSeconds(ms) {
-  if (!ms) return t('zeroSec');
+  if (!ms) return `0${UNIT.sec}`;
   const totalSec = Math.floor(ms / 1000);
-  if (totalSec < 60) return `${totalSec}${JOIN}${t('unitSec')}`;
+  if (totalSec < 60) return `${totalSec}${UNIT.sec}`;
   const min = Math.floor(totalSec / 60);
   const sec = totalSec % 60;
-  return `${min}${JOIN}${t('unitMin')}${JOIN}${sec}${JOIN}${t('unitSec')}`;
+  return `${min}${UNIT.min}${sec}${UNIT.sec}`;
 }
 
 function render(settings) {
