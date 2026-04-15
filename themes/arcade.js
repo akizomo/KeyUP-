@@ -7,36 +7,70 @@
   window.KeyUpThemes = window.KeyUpThemes || {};
   window.KeyUpThemes.arcade = window.KeyUpThemes.arcade || {};
   window.KeyUpThemes.arcade.guide = {
-    title: '🕹️ アーケード',
-    groups: [
-      {
-        label: 'タイピング',
-        items: [
-          { keys: ['通常文字'], sound: '8bitブリップ (ピッチ上昇)', icon: '🎵' },
-          { keys: ['Enter'],   sound: 'キック + ノイズ',          icon: '⬇️' },
-        ],
-      },
-      {
-        label: '無敵タイム (連続打鍵)',
-        items: [
-          { keys: ['10秒'], sound: 'Lv1 アルペジオ開始', icon: '🌟' },
-          { keys: ['30秒'], sound: 'Lv2 ベースライン追加', icon: '⚡' },
-          { keys: ['60秒'], sound: 'Lv3 リード追加 (MAX)',  icon: '🔥' },
-        ],
-      },
-      {
-        label: 'クリック',
-        items: [
-          { keys: ['マウス'], sound: '決定SE', icon: '🖱️' },
-        ],
-      },
-      {
-        label: 'BGM',
-        items: [
-          { keys: ['2秒無操作'], sound: '全レイヤー停止', icon: '🔇' },
-        ],
-      },
-    ],
+    ja: {
+      title: '🕹️ アーケード',
+      groups: [
+        {
+          label: 'タイピング',
+          items: [
+            { keys: ['通常文字'], sound: '8bitブリップ (ピッチ上昇)', icon: '🎵' },
+            { keys: ['Enter'],   sound: 'キック + ノイズ',          icon: '⬇️' },
+          ],
+        },
+        {
+          label: '無敵タイム (連続打鍵)',
+          items: [
+            { keys: ['10秒'], sound: 'Lv1 アルペジオ開始', icon: '🌟' },
+            { keys: ['30秒'], sound: 'Lv2 ベースライン追加', icon: '⚡' },
+            { keys: ['60秒'], sound: 'Lv3 リード追加 (MAX)',  icon: '🔥' },
+          ],
+        },
+        {
+          label: 'クリック',
+          items: [
+            { keys: ['マウス'], sound: '決定SE', icon: '🖱️' },
+          ],
+        },
+        {
+          label: 'BGM',
+          items: [
+            { keys: ['2秒無操作'], sound: '全レイヤー停止', icon: '🔇' },
+          ],
+        },
+      ],
+    },
+    en: {
+      title: '🕹️ Arcade',
+      groups: [
+        {
+          label: 'Typing',
+          items: [
+            { keys: ['Letters'], sound: '8-bit blip (pitch rises)', icon: '🎵' },
+            { keys: ['Enter'],   sound: 'Kick + noise',             icon: '⬇️' },
+          ],
+        },
+        {
+          label: 'Invincible time (typing streak)',
+          items: [
+            { keys: ['10s'], sound: 'Lv1 arpeggio starts', icon: '🌟' },
+            { keys: ['30s'], sound: 'Lv2 bass line added', icon: '⚡' },
+            { keys: ['60s'], sound: 'Lv3 lead added (MAX)', icon: '🔥' },
+          ],
+        },
+        {
+          label: 'Click',
+          items: [
+            { keys: ['Mouse'], sound: 'Confirm SE', icon: '🖱️' },
+          ],
+        },
+        {
+          label: 'BGM',
+          items: [
+            { keys: ['2s idle'], sound: 'All layers stop', icon: '🔇' },
+          ],
+        },
+      ],
+    },
   };
 })();
 

@@ -2,7 +2,8 @@
   "manifest_version": 3,
   "name": "Key↑",
   "version": "0.2.0",
-  "description": "Type. Power up. Repeat. タイピングでパワーアップする8bitサウンド拡張。",
+  "default_locale": "en",
+  "description": "Type. Power up. Repeat. A typing SE extension that powers up as you go.",
   "permissions": ["storage", "offscreen"],
   "host_permissions": ["<all_urls>"],
   "background": {
@@ -32,7 +33,8 @@
         "assets/stadium.mp3",
         "assets/cheer_short.mp3",
         "assets/cheer_mid.mp3",
-        "assets/cheer_long.mp3"
+        "assets/cheer_long.mp3",
+        "assets/ko_gong.mp3"
       ],
       "matches": ["<all_urls>"]
     }

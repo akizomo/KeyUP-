@@ -8,27 +8,40 @@ const DEFAULTS = {
 
 const $ = (id) => document.getElementById(id);
 
+const LANG = (chrome.i18n.getUILanguage() || 'en').toLowerCase().startsWith('ja') ? 'ja' : 'en';
+const t = (key) => chrome.i18n.getMessage(key) || key;
+const JOIN = LANG === 'ja' ? '' : ' ';
+
+function applyStaticI18n() {
+  document.documentElement.lang = LANG;
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    const msg = t(el.dataset.i18n);
+    if (msg) el.textContent = msg;
+  });
+}
+
 function todayKey() {
   const d = new Date();
   return `stats_${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 }
 
 function formatMinutes(ms) {
-  if (!ms) return '0分';
+  if (!ms) return t('zeroMin');
   const totalSec = Math.floor(ms / 1000);
-  if (totalSec < 60) return `${totalSec}秒`;
+  if (totalSec < 60) return `${totalSec}${JOIN}${t('unitSec')}`;
   const min = Math.floor(totalSec / 60);
   const sec = totalSec % 60;
-  return sec > 0 ? `${min}分${sec}秒` : `${min}分`;
+  const minStr = `${min}${JOIN}${t('unitMin')}`;
+  return sec > 0 ? `${minStr}${JOIN}${sec}${JOIN}${t('unitSec')}` : minStr;
 }
 
 function formatSeconds(ms) {
-  if (!ms) return '0秒';
+  if (!ms) return t('zeroSec');
   const totalSec = Math.floor(ms / 1000);
-  if (totalSec < 60) return `${totalSec}秒`;
+  if (totalSec < 60) return `${totalSec}${JOIN}${t('unitSec')}`;
   const min = Math.floor(totalSec / 60);
   const sec = totalSec % 60;
-  return `${min}分${sec}秒`;
+  return `${min}${JOIN}${t('unitMin')}${JOIN}${sec}${JOIN}${t('unitSec')}`;
 }
 
 function render(settings) {
@@ -47,12 +60,11 @@ function renderGuide(themeId) {
   const body = $('guideBody');
   if (!body) return;
   const themes = window.KeyUpThemes || {};
-  const guide = (themes[themeId] && themes[themeId].guide)
+  const raw = (themes[themeId] && themes[themeId].guide)
     || (themes.fighting && themes.fighting.guide);
-  if (!guide) {
-    body.textContent = '';
-    return;
-  }
+  if (!raw) { body.textContent = ''; return; }
+  // guide may be { ja, en } or a flat legacy object.
+  const guide = raw[LANG] || raw.en || raw.ja || raw;
   const parts = [`<div class="guide-title">${guide.title}</div>`];
   for (const g of guide.groups) {
     parts.push(`<div class="guide-group"><div class="guide-group-label">${g.label}</div>`);
@@ -75,6 +87,8 @@ function renderGuide(themeId) {
 function save(patch) {
   chrome.storage.sync.set(patch);
 }
+
+applyStaticI18n();
 
 chrome.storage.sync.get(DEFAULTS, (stored) => {
   const settings = { ...DEFAULTS, ...stored };
