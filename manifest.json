@@ -34,7 +34,8 @@
         "assets/cheer_short.mp3",
         "assets/cheer_mid.mp3",
         "assets/cheer_long.mp3",
-        "assets/ko_gong.mp3"
+        "assets/ko_gong.mp3",
+        "assets/punch_whoosh.mp3"
       ],
       "matches": ["<all_urls>"]
     }

@@ -35,6 +35,12 @@
           ],
         },
         {
+          label: 'クリック',
+          items: [
+            { keys: ['マウス'], sound: 'パンチ素振り (空振り)', icon: '🖱️' },
+          ],
+        },
+        {
           label: 'BGM',
           items: [
             { keys: ['最初のキー'], sound: 'スタジアムBGM開始 (ループ)', icon: '🏟️' },
@@ -66,6 +72,12 @@
           label: 'Finisher',
           items: [
             { keys: ['⌘/Ctrl + Enter'], sound: 'KO gong + long cheer (3s → fade)', icon: '🛎️' },
+          ],
+        },
+        {
+          label: 'Click',
+          items: [
+            { keys: ['Mouse'], sound: 'Punch whoosh (swing miss)', icon: '🖱️' },
           ],
         },
         {
@@ -109,6 +121,7 @@
   let hitBus = null;    // Native Web Audio GainNode — boosts the hit samples
   const HIT_BUS_BOOST = 2.4;
   let koGongBuffer = null;
+  let whooshBuffer = null;
   let lineKick = null;
   let clickPing = null;
   let cheerPlayers = null; // { 1, 2, 3 } -> Tone.Player
@@ -173,6 +186,13 @@
       .then((ab) => _ctx.decodeAudioData(ab))
       .then((buf) => { koGongBuffer = buf; })
       .catch((err) => console.warn('[Key↑] ko_gong.mp3 load failed', err));
+
+    // Click whoosh (punch swing) — used for mouse clicks.
+    fetch(_url('assets/punch_whoosh.mp3'))
+      .then((r) => r.arrayBuffer())
+      .then((ab) => _ctx.decodeAudioData(ab))
+      .then((buf) => { whooshBuffer = buf; })
+      .catch((err) => console.warn('[Key↑] punch_whoosh.mp3 load failed', err));
 
     // Linebreak (plain Enter w/o KO context — soft body hit)
     lineKick = new Tone.MembraneSynth({
@@ -277,6 +297,12 @@
 
   function playClickSE() {
     if (!started) { ensureStarted(); return; }
+    if (whooshBuffer) {
+      // ±8% pitch variance so repeated clicks don't sound robotic.
+      const variance = (Math.random() * 0.16) - 0.08;
+      playSampleAt(whooshBuffer, 1.0 + variance, 0);
+      return;
+    }
     try { clickPing.triggerAttackRelease('64n'); } catch (_) {}
   }
 
