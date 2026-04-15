@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Privacy Policy — KeyUp</title>
+<meta name="description" content="KeyUp privacy policy and permissions explanation. KeyUp does not collect, record, store, or transmit anything you type." />
+<meta name="theme-color" content="#0d0d16" />
+<meta name="robots" content="index, follow" />
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Tektur:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          primary: "#ffdd7c",
+          secondary: "#00fcca",
+          surface: "#0d0d16",
+          "surface-container": "#191923",
+          "surface-container-high": "#1f1e2a",
+          "on-surface": "#e7e4f1",
+          "on-surface-variant": "#aca9b6",
+          outline: "#767480",
+          "outline-variant": "#484751",
+        },
+        fontFamily: {
+          headline: ["Tektur", "sans-serif"],
+          body: ["Rajdhani", "Noto Sans JP", "sans-serif"],
+          jp: ["Noto Sans JP", "sans-serif"],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: #0d0d16;
+    color: #e7e4f1;
+    font-family: "Rajdhani", "Noto Sans JP", sans-serif;
+  }
+  .scanlines {
+    position: fixed; inset: 0;
+    background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.1) 50%),
+                linear-gradient(90deg, rgba(255,0,0,0.02), rgba(0,255,0,0.01), rgba(0,255,0,0.02));
+    background-size: 100% 3px, 3px 100%;
+    pointer-events: none; z-index: 100;
+  }
+  .pixel-grid {
+    background-image: radial-gradient(rgba(255,221,124,0.05) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  html[data-lang="en"] .t-ja { display: none !important; }
+  html[data-lang="ja"] .t-en { display: none !important; }
+  .prose p { margin-bottom: 1em; line-height: 1.75; }
+  .prose h2 { font-family: "Tektur", sans-serif; font-style: italic; font-weight: 900; font-size: 1.75rem; text-transform: uppercase; color: #ffdd7c; margin: 2.25rem 0 1rem; letter-spacing: -0.02em; }
+  .prose h3 { font-family: "Tektur", sans-serif; font-weight: 700; font-size: 1.15rem; text-transform: uppercase; color: #00fcca; margin: 1.5rem 0 0.5rem; letter-spacing: 0.05em; }
+  .prose ul { list-style: none; padding: 0; margin: 0.75em 0 1.25em; }
+  .prose ul li { position: relative; padding-left: 1.2em; margin: 0.4em 0; line-height: 1.65; }
+  .prose ul li::before { content: "▸"; position: absolute; left: 0; color: #ffdd7c; }
+  .prose a { color: #ffdd7c; text-decoration: underline; }
+  .prose a:hover { color: #00fcca; }
+  .prose code { background: #191923; border: 1px solid #484751; border-radius: 3px; padding: 1px 6px; font-family: ui-monospace, monospace; font-size: 0.9em; color: #ffdd7c; }
+</style>
+</head>
+<body class="bg-surface">
+<div class="scanlines"></div>
+
+<!-- NAVBAR -->
+<nav class="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-xl border-b-2 border-amber-400/20">
+  <div class="flex justify-between items-center px-4 sm:px-6 h-16 max-w-7xl mx-auto">
+    <a href="index.html" class="flex items-center">
+      <img src="assets/logo.svg" alt="KeyUp" class="h-7 sm:h-8 w-auto" />
+    </a>
+    <div class="flex items-center gap-2 sm:gap-3">
+      <button id="lang-toggle" aria-label="Toggle language" class="font-mono text-[10px] sm:text-xs tracking-widest uppercase text-slate-400 hover:text-amber-300 border border-slate-700 hover:border-amber-400/60 rounded px-2 py-1 transition-colors">
+        <span class="t-en">JA</span><span class="t-ja">EN</span>
+      </button>
+      <a href="index.html" class="bg-primary text-[#584500] font-bold px-3 sm:px-5 py-2 rounded-md hover:shadow-[0_0_15px_rgba(255,221,124,0.3)] transition-all active:scale-95 duration-75 uppercase text-[10px] sm:text-xs font-headline whitespace-nowrap">
+        <span class="t-en">← Back</span><span class="t-ja">← 戻る</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<main class="pt-24 sm:pt-32 pb-24 pixel-grid">
+  <article class="max-w-3xl mx-auto px-4 sm:px-6 prose">
+    <header class="mb-10">
+      <h1 class="font-headline text-4xl sm:text-6xl font-black italic uppercase tracking-tighter text-primary drop-shadow-[0_0_20px_rgba(255,221,124,0.3)]">
+        <span class="t-en">Privacy Policy</span><span class="t-ja font-jp not-italic">プライバシーポリシー</span>
+      </h1>
+      <p class="mt-3 font-mono text-xs tracking-widest uppercase text-outline">
+        <span class="t-en">Last updated: 2026-04-15</span><span class="t-ja">最終更新: 2026年4月15日</span>
+      </p>
+    </header>
+
+    <!-- EN -->
+    <div class="t-en">
+      <p class="text-lg text-on-surface">
+        <strong>Short version:</strong> KeyUp is a local-only Chrome extension. It never reads the content of what you type, never sends anything to a server, and has no analytics, accounts, ads, or tracking.
+      </p>
+
+      <h2>What KeyUp does</h2>
+      <p>
+        KeyUp listens to keyboard and mouse events on the pages you visit and plays sound effects in response. That is its entire function. The extension runs in your browser only — there is no KeyUp server.
+      </p>
+
+      <h2>Data we collect</h2>
+      <p><strong>None.</strong> KeyUp does not collect, store, transmit, or share any of the following:</p>
+      <ul>
+        <li>The characters or text you type</li>
+        <li>The contents of pages you visit</li>
+        <li>URLs, browsing history, or tab information</li>
+        <li>Your IP address, location, or device identifiers</li>
+        <li>Analytics, telemetry, or usage statistics</li>
+        <li>Personal information of any kind</li>
+      </ul>
+
+      <h3>Key-event detection ≠ key logging</h3>
+      <p>
+        KeyUp needs to know <em>that</em> a key was pressed in order to trigger a sound. It does <strong>not</strong> read, buffer, store, or transmit <em>which</em> characters were typed. The extension reacts to the event and immediately discards it.
+      </p>
+
+      <h2>Local settings storage</h2>
+      <p>
+        Your preferences (volume, active theme, typing-SE on/off, etc.) are stored locally using <code>chrome.storage.sync</code>. This uses Chrome's own account sync if you are signed in to Chrome, so your settings follow you across devices — but this data stays entirely within Google's Chrome infrastructure and never touches any KeyUp-operated server.
+      </p>
+      <p>You can clear these settings at any time by removing the extension.</p>
+
+      <h2 id="permissions">Permissions explained</h2>
+      <p>Here is every permission KeyUp's <code>manifest.json</code> requests, and why:</p>
+
+      <h3>host_permissions: <code>&lt;all_urls&gt;</code></h3>
+      <p>
+        Allows the extension to inject its content script into any page you type on — Gmail, Docs, Notion, your own apps, and so on. Without this the extension cannot react to keystrokes anywhere.
+      </p>
+
+      <h3>content_scripts on <code>&lt;all_urls&gt;</code></h3>
+      <p>
+        The content script is a tiny listener for <code>keydown</code> / <code>mousedown</code> events. It forwards a trigger (not the key content) to the extension's audio layer.
+      </p>
+
+      <h3><code>storage</code></h3>
+      <p>
+        Saves your settings (volume, theme, toggles) via <code>chrome.storage.sync</code>. No page content is ever written to storage.
+      </p>
+
+      <h3><code>offscreen</code></h3>
+      <p>
+        Chrome Manifest V3 service workers cannot play audio directly. KeyUp uses an <a href="https://developer.chrome.com/docs/extensions/reference/api/offscreen" target="_blank" rel="noopener">offscreen document</a> — a hidden in-extension page — solely for playing sound effect files bundled with the extension.
+      </p>
+
+      <h2>Third parties</h2>
+      <p>
+        KeyUp does not use analytics, ads, trackers, remote configuration, or any third-party SDK. The extension ships with all audio assets bundled — no audio is streamed from a network.
+      </p>
+      <p>
+        This landing page (keyup.app) loads Google Fonts and the Tailwind CDN for styling. Those requests are made by the website, not by the extension itself.
+      </p>
+
+      <h2>Children's privacy</h2>
+      <p>
+        KeyUp is suitable for all ages and does not collect any information, from children or otherwise.
+      </p>
+
+      <h2>Changes to this policy</h2>
+      <p>
+        If the policy ever changes (for example, if a future premium theme introduces optional cloud features), we will update the "Last updated" date at the top of this page and highlight changes on the landing page.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions, concerns, or bug reports: <a href="mailto:support@keyup.app">support@keyup.app</a>.
+      </p>
+    </div>
+
+    <!-- JA -->
+    <div class="t-ja font-jp">
+      <p class="text-lg text-on-surface">
+        <strong>要点:</strong> KeyUpは完全ローカルで動作するChrome拡張機能です。入力内容を一切読み取らず、サーバーに送信せず、アナリティクス・アカウント・広告・トラッキングは存在しません。
+      </p>
+
+      <h2>KeyUpの機能</h2>
+      <p>
+        KeyUpは閲覧中のページでキーボード/マウスイベントを監視し、それに応じてサウンドエフェクトを再生します。機能はそれだけです。拡張機能はお使いのブラウザ内でのみ動作し、KeyUp独自のサーバーは存在しません。
+      </p>
+
+      <h2>収集するデータ</h2>
+      <p><strong>ありません。</strong> KeyUpは以下のいずれも収集・保存・送信・共有しません:</p>
+      <ul>
+        <li>入力された文字・テキスト</li>
+        <li>閲覧ページの内容</li>
+        <li>URL、閲覧履歴、タブ情報</li>
+        <li>IPアドレス、位置情報、端末識別子</li>
+        <li>アナリティクス、テレメトリ、利用統計</li>
+        <li>その他あらゆる個人情報</li>
+      </ul>
+
+      <h3>キーイベント検知 ≠ キーロギング</h3>
+      <p>
+        KeyUpはSEを再生するため「キーが押されたこと」を検知する必要があります。しかし、どの文字が入力されたかを読み取る・保持する・送信することは<strong>ありません</strong>。イベントを受け取って即座に音を鳴らし、内容は破棄します。
+      </p>
+
+      <h2>設定の保存</h2>
+      <p>
+        音量、選択中のテーマ、タイピングSEのオン/オフなどの設定は <code>chrome.storage.sync</code> を使いローカルに保存されます。Chromeアカウントにサインインしている場合はChrome標準の同期機能を経由して複数端末で共有されますが、このデータはGoogleのChromeインフラ内に留まり、KeyUp運営の外部サーバーには一切送信されません。
+      </p>
+      <p>拡張機能を削除すれば設定は完全にクリアされます。</p>
+
+      <h2 id="permissions-ja">権限について</h2>
+      <p>KeyUpの <code>manifest.json</code> が要求する権限と、その理由を全て列挙します:</p>
+
+      <h3>host_permissions: <code>&lt;all_urls&gt;</code></h3>
+      <p>
+        タイピングする任意のページ（Gmail、Docs、Notion、独自アプリなど）にコンテンツスクリプトを注入するために必要です。これがないとどのサイトでもキー入力に反応できません。
+      </p>
+
+      <h3>content_scripts（<code>&lt;all_urls&gt;</code>）</h3>
+      <p>
+        コンテンツスクリプトは <code>keydown</code> / <code>mousedown</code> イベントを監視する小さなリスナーです。トリガー（キー内容ではない）を拡張機能のオーディオ層に転送します。
+      </p>
+
+      <h3><code>storage</code></h3>
+      <p>
+        音量、テーマ、トグルなどの設定を <code>chrome.storage.sync</code> で保存します。ページ内容がストレージに書き込まれることはありません。
+      </p>
+
+      <h3><code>offscreen</code></h3>
+      <p>
+        Chrome Manifest V3 のService Workerは直接オーディオを再生できないため、KeyUpは<a href="https://developer.chrome.com/docs/extensions/reference/api/offscreen" target="_blank" rel="noopener">Offscreenドキュメント</a>（拡張機能内の非表示ページ）を利用して、拡張機能に同梱されたSEファイルのみを再生します。
+      </p>
+
+      <h2>第三者サービス</h2>
+      <p>
+        KeyUpはアナリティクス、広告、トラッカー、リモート設定、第三者SDKを一切使用していません。全てのオーディオアセットは拡張機能に同梱されており、ネットワークからストリーミングすることはありません。
+      </p>
+      <p>
+        このランディングページ (keyup.app) はスタイリングのためGoogle FontsとTailwind CDNを読み込みますが、これはウェブサイト側の挙動であり、拡張機能本体ではありません。
+      </p>
+
+      <h2>子供のプライバシー</h2>
+      <p>
+        KeyUpは全年齢対象で、子供を含め誰からも情報を収集しません。
+      </p>
+
+      <h2>ポリシーの変更</h2>
+      <p>
+        ポリシーが変更された場合（例: 将来のプレミアムテーマがオプショナルなクラウド機能を導入する場合）、ページ上部の「最終更新」日付を更新し、ランディングページで変更点を告知します。
+      </p>
+
+      <h2>連絡先</h2>
+      <p>
+        質問、懸念、バグ報告: <a href="mailto:support@keyup.app">support@keyup.app</a>
+      </p>
+    </div>
+  </article>
+</main>
+
+<footer class="w-full py-12 bg-slate-950 flex flex-col items-center gap-6 px-4 border-t-4 border-double border-slate-800">
+  <img src="assets/logo.svg" alt="KeyUp" class="h-7 w-auto" />
+  <div class="flex flex-wrap justify-center gap-6 sm:gap-8 font-mono text-[10px] sm:text-xs tracking-widest uppercase text-slate-500">
+    <a href="index.html" class="hover:text-cyan-300 transition-colors"><span class="t-en">Home</span><span class="t-ja">ホーム</span></a>
+    <a href="privacy.html" class="hover:text-cyan-300 transition-colors"><span class="t-en">Privacy</span><span class="t-ja">プライバシー</span></a>
+    <a href="index.html#faq" class="hover:text-cyan-300 transition-colors">FAQ</a>
+    <a href="mailto:support@keyup.app" class="hover:text-cyan-300 transition-colors"><span class="t-en">Support</span><span class="t-ja">サポート</span></a>
+  </div>
+  <div class="text-slate-500 font-mono text-[10px] sm:text-xs tracking-widest uppercase text-center">
+    © 199X NEON KINETIC SYSTEMS. ALL RIGHTS RESERVED.
+  </div>
+</footer>
+
+<script>
+  (() => {
+    const KEY = 'keyup-lang';
+    const root = document.documentElement;
+    const saved = localStorage.getItem(KEY);
+    const initial = saved || (navigator.language && navigator.language.startsWith('ja') ? 'ja' : 'en');
+    root.setAttribute('data-lang', initial);
+    root.setAttribute('lang', initial);
+    const btn = document.getElementById('lang-toggle');
+    if (btn) btn.addEventListener('click', () => {
+      const next = root.getAttribute('data-lang') === 'en' ? 'ja' : 'en';
+      root.setAttribute('data-lang', next);
+      root.setAttribute('lang', next);
+      localStorage.setItem(KEY, next);
+    });
+  })();
+</script>
+</body>
+</html>

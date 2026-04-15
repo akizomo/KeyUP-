@@ -631,23 +631,29 @@
     play(file, { rate: 1 + variance, gain: 1.1 });
   }
 
-  // Per-level hold time before the fade kicks in. Short combos get a quick
-  // burst; higher levels linger a bit longer but never full-length.
-  const CHEER_HOLD_S = { 1: 0.8, 2: 1.2, 3: 1.6 };
+  // Per-level hold time before the fade kicks in. Higher levels linger and
+  // are louder so Lv2→Lv3 feels like a clear escalation.
+  const CHEER_HOLD_S = { 1: 0.8, 2: 1.2, 3: 1.8 };
+  const CHEER_GAIN  = { 1: 0.75, 2: 0.95, 3: 1.2 };
   const CHEER_FADE_S = 0.5;
 
-  function playCheer(level) {
+  function playCheer(level, opts = {}) {
     const now = Date.now();
-    if (now - lastCheerAt < CHEER_COOLDOWN_MS) return;
+    // Level-ups bypass the cooldown so escalation transitions never get eaten.
+    if (!opts.force && now - lastCheerAt < CHEER_COOLDOWN_MS) return;
     lastCheerAt = now;
     const file = CHEER_FILES[level] || CHEER_FILES[1];
-    const node = play(file, { gain: 0.9 });
+    const gain = CHEER_GAIN[level] || 0.9;
+    const node = play(file, { gain });
     if (!node) return;
     const fadeStart = ctx.currentTime + (CHEER_HOLD_S[level] || 1.0);
     const fadeEnd = fadeStart + CHEER_FADE_S;
-    node.gain.gain.setValueAtTime(0.9, fadeStart);
+    node.gain.gain.setValueAtTime(gain, fadeStart);
     node.gain.gain.linearRampToValueAtTime(0.0001, fadeEnd);
     try { node.src.stop(fadeEnd + 0.05); } catch (_) {}
+    // Lv3 gets an extra ko_gong sub-layer for weight so the jump from Lv2
+    // feels like a real power-up, not just another crowd burst.
+    if (level === 3) play('ko_gong.mp3', { gain: 0.45 });
   }
 
   // ----- BGM -----
@@ -713,7 +719,7 @@
                 : comboCount >= COMBO_LV[1] ? 1 : 0;
     if (newLv > comboLevel) {
       comboLevel = newLv;
-      playCheer(newLv);
+      playCheer(newLv, { force: true });
     }
     renderCombo();
     if (comboResetTimer) clearTimeout(comboResetTimer);

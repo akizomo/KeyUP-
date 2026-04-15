@@ -316,15 +316,21 @@
 
   let activeCheer = null;
   let koFadeTimer = null;
-  function playCheer(level, volDb) {
+  // Per-level base volume so Lv2→Lv3 is a clear escalation, not just
+  // "another cheer track". dB values map to roughly 0.75 / 0.95 / 1.2 linear.
+  const CHEER_LV_DB = { 1: -3, 2: -0.5, 3: 1.5 };
+
+  function playCheer(level, opts) {
     if (!started || !cheerPlayers) return;
+    const force = opts && opts.force;
+    const volDb = opts && typeof opts.volDb === 'number' ? opts.volDb : CHEER_LV_DB[level];
     const now = Date.now();
-    if (now - combo.lastCheerAt < CHEER_COOLDOWN_MS) return;
+    // Level-up transitions bypass the cooldown so escalation never gets eaten.
+    if (!force && now - combo.lastCheerAt < CHEER_COOLDOWN_MS) return;
     combo.lastCheerAt = now;
     const player = cheerPlayers[level] || cheerPlayers[1];
     try {
       if (!player.loaded) return;
-      // Cross-fade: previous cheer eases out over its fadeOut (0.1s).
       if (activeCheer && activeCheer !== player && activeCheer.state === 'started') {
         try { activeCheer.stop(); } catch (_) {}
       }
@@ -333,6 +339,8 @@
       player.start();
       activeCheer = player;
     } catch (_) {}
+    // Lv3 adds a ko_gong sub-layer for extra weight on the jump from Lv2.
+    if (level === 3 && koGongBuffer) playSampleAt(koGongBuffer, 1.0, -6);
   }
 
   function stopActiveCheer() {
@@ -452,7 +460,7 @@
     const newLevel = comboLevel(combo.count);
     if (newLevel > combo.level) {
       combo.level = newLevel;
-      playCheer(newLevel);
+      playCheer(newLevel, { force: true });
       if (onLevelChange) onLevelChange(newLevel, newLevel - 1);
     }
     if (combo.breakTimer) clearTimeout(combo.breakTimer);
