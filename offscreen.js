@@ -7,8 +7,6 @@
 (function () {
   'use strict';
 
-  console.log('[Key↑ offscreen] loaded, themes =', Object.keys(window.KeyUpThemes || {}));
-
   const THEMES = window.KeyUpThemes || {};
   const DEFAULT_THEME = 'fighting';
 
