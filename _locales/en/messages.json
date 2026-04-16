@@ -1,5 +1,5 @@
 {
-  "extensionDescription": { "message": "Turn every keystroke into a fighting-game hit. Punch and kick SFX, stadium crowd BGM, combo cheers, and a KO finisher — all offline, no tracking." },
+  "extensionDescription": { "message": "Turn every keystroke into a fighting-game hit. Punch/kick SFX, stadium BGM, combo cheers, KO finisher. Offline, no tracking." },
   "appTagline":       { "message": "Type. Power up. Repeat." },
   "themeFighting":    { "message": "Fighting" },
   "themeArcade":      { "message": "Arcade" },
