@@ -10,6 +10,7 @@ const DEFAULT_SETTINGS = {
   typingSE: true,
   clickSE: true,
   invincibleBGM: true,
+  hudEffects: true,
   activeTheme: 'fighting',
 };
 
@@ -96,6 +97,20 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       keyupLevel: msg.level || 0,
       keyupLevelAt: Date.now(),
     });
+    return false;
+  }
+
+  if (msg.type === 'set-count') {
+    chrome.storage.local.set({
+      keyupCount: msg.count || 0,
+      keyupCountAt: Date.now(),
+    });
+    return false;
+  }
+
+  if (msg.type === 'ko') {
+    // Bump a timestamp; content scripts listen for changes to trigger the HUD.
+    chrome.storage.local.set({ keyupKoAt: Date.now() });
     return false;
   }
 

@@ -7,6 +7,7 @@
   "typingSELabel":    { "message": "⌨️ Typing SE" },
   "clickSELabel":     { "message": "🖱️ Click SE" },
   "invincibleBGMLabel":{ "message": "🎮 Invincible BGM" },
+  "hudEffectsLabel":  { "message": "🎯 HUD Effects" },
   "guideTitle":       { "message": "🎵 Sound Guide" },
   "statsTodayTime":   { "message": "Today's invincible time" },
   "statsBestStreak":  { "message": "Best streak" }

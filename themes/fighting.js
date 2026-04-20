@@ -24,8 +24,8 @@
           label: 'コンボ歓声',
           items: [
             { keys: ['5打'],  sound: '歓声 Lv1 (Short)', icon: '📣' },
-            { keys: ['15打'], sound: '歓声 Lv2 (Mid)',   icon: '🎉' },
-            { keys: ['30打'], sound: '歓声 Lv3 (Long)',  icon: '🔥' },
+            { keys: ['20打'], sound: '歓声 Lv2 (Mid)',   icon: '🎉' },
+            { keys: ['50打'], sound: '歓声 Lv3 (Long)',  icon: '🔥' },
           ],
         },
         {
@@ -64,8 +64,8 @@
           label: 'Combo cheers',
           items: [
             { keys: ['5 hits'],  sound: 'Cheer Lv1 (Short)', icon: '📣' },
-            { keys: ['15 hits'], sound: 'Cheer Lv2 (Mid)',   icon: '🎉' },
-            { keys: ['30 hits'], sound: 'Cheer Lv3 (Long)',  icon: '🔥' },
+            { keys: ['20 hits'], sound: 'Cheer Lv2 (Mid)',   icon: '🎉' },
+            { keys: ['50 hits'], sound: 'Cheer Lv3 (Long)',  icon: '🔥' },
           ],
         },
         {
@@ -97,10 +97,11 @@
   if (typeof Tone === 'undefined') return;
 
   const COMBO = {
-    BREAK_TIMEOUT_MS: 500,
+    BREAK_TIMEOUT_MS: 2000,
     LV1: 5,
-    LV2: 15,
-    LV3: 30,
+    LV2: 20,
+    LV3: 50,
+    BONUS_STEP: 30, // past LV3, fire a bonus sting every +30 hits (80, 110, 140...)
   };
   const CHEER_COOLDOWN_MS = 3000;
   const BGM_IDLE_TIMEOUT_MS = 2000;
@@ -110,6 +111,8 @@
   let started = false;
   let userVolume = 0.5;
   let onLevelChange = null;
+  let onComboChange = null;
+  let onKO = null;
 
   // Hit sample bank: 6 real recordings (small/mid/large × punch/kick)
   // keyed by tier ('small'|'mid'|'large') and weapon ('punch'|'kick').
@@ -316,9 +319,9 @@
 
   let activeCheer = null;
   let koFadeTimer = null;
-  // Per-level base volume so Lv2→Lv3 is a clear escalation, not just
-  // "another cheer track". dB values map to roughly 0.75 / 0.95 / 1.2 linear.
-  const CHEER_LV_DB = { 1: -3, 2: -0.5, 3: 3 };
+  // Per-level base volume. Lv2/Lv3 are pushed well above Lv1 so escalation
+  // feels like a real power-up, not "same cheer, slightly louder".
+  const CHEER_LV_DB = { 1: -3, 2: 4, 3: 9 };
 
   function playCheer(level, opts) {
     if (!started || !cheerPlayers) return;
@@ -346,6 +349,67 @@
       try { activeCheer.stop(); } catch (_) {}
     }
     activeCheer = null;
+  }
+
+  // Layered impact that fires on Lv2/Lv3 transitions. Built from existing
+  // samples + siren so no new assets are needed. Distinct from playKO so the
+  // finisher still feels terminal.
+  function playLevelUpSting(level) {
+    if (!started) return;
+    if (level === 2) {
+      // Lv2: heavy punch pitched down for weight + short rising siren.
+      const buf = hitBuffers.large.punch || hitBuffers.large.kick;
+      if (buf) playSampleAt(buf, 0.82, 3);
+      try {
+        const t0 = Tone.now();
+        siren.volume.value = -8;
+        siren.frequency.setValueAtTime(330, t0);
+        siren.frequency.exponentialRampToValueAtTime(880, t0 + 0.35);
+        siren.triggerAttackRelease(440, 0.4, t0);
+      } catch (_) {}
+    } else if (level === 3) {
+      // Lv3: double-layered heavy hits + longer rising siren + subtle gong.
+      const buf = hitBuffers.large.punch;
+      if (buf) playSampleAt(buf, 0.7, 5);
+      const bufK = hitBuffers.large.kick;
+      if (bufK) setTimeout(() => playSampleAt(bufK, 0.9, 4), 90);
+      if (koGongBuffer) playSampleAt(koGongBuffer, 1.15, -6); // quieter than KO
+      try {
+        const t0 = Tone.now();
+        siren.volume.value = -4;
+        siren.frequency.setValueAtTime(440, t0);
+        siren.frequency.exponentialRampToValueAtTime(1760, t0 + 0.7);
+        siren.triggerAttackRelease(880, 0.75, t0);
+      } catch (_) {}
+    }
+  }
+
+  // Past Lv3, keep the party going — lighter than Lv3 so the peak remains,
+  // but still distinctly satisfying every 30 hits.
+  function playBonusSting() {
+    if (!started) return;
+    const buf = hitBuffers.large.punch || hitBuffers.large.kick;
+    if (buf) playSampleAt(buf, 0.78, 4);
+    const p = cheerPlayers && cheerPlayers[1];
+    if (p && p.loaded) {
+      try {
+        if (activeCheer && activeCheer !== p && activeCheer.state === 'started') {
+          try { activeCheer.stop(); } catch (_) {}
+        }
+        if (p.state === 'started') p.stop();
+        p.volume.value = 6;
+        p.start();
+        activeCheer = p;
+        combo.lastCheerAt = Date.now();
+      } catch (_) {}
+    }
+    try {
+      const t0 = Tone.now();
+      siren.volume.value = -6;
+      siren.frequency.setValueAtTime(550, t0);
+      siren.frequency.exponentialRampToValueAtTime(1320, t0 + 0.3);
+      siren.triggerAttackRelease(880, 0.32, t0);
+    } catch (_) {}
   }
 
   function playComboBreak(count) {
@@ -459,8 +523,12 @@
     if (newLevel > combo.level) {
       combo.level = newLevel;
       playCheer(newLevel, { force: true });
+      playLevelUpSting(newLevel);
       if (onLevelChange) onLevelChange(newLevel, newLevel - 1);
+    } else if (combo.count > COMBO.LV3 && (combo.count - COMBO.LV3) % COMBO.BONUS_STEP === 0) {
+      playBonusSting();
     }
+    if (onComboChange) onComboChange(combo.count);
     if (combo.breakTimer) clearTimeout(combo.breakTimer);
     combo.breakTimer = setTimeout(breakCombo, COMBO.BREAK_TIMEOUT_MS);
   }
@@ -473,15 +541,18 @@
     combo.level = 0;
     if (wasCount >= COMBO.LV1) playComboBreak(wasCount);
     if (wasLevel > 0 && onLevelChange) onLevelChange(0, wasLevel);
+    if (wasCount > 0 && onComboChange) onComboChange(0);
     stopActiveCheer();
   }
 
   function resetCombo() {
     if (combo.breakTimer) { clearTimeout(combo.breakTimer); combo.breakTimer = null; }
+    const wasCount = combo.count;
     const wasLevel = combo.level;
     combo.count = 0;
     combo.level = 0;
     if (wasLevel > 0 && onLevelChange) onLevelChange(0, wasLevel);
+    if (wasCount > 0 && onComboChange) onComboChange(0);
   }
 
   // -------- Public theme API --------
@@ -491,6 +562,8 @@
     id: 'fighting',
     async init(opts) {
       onLevelChange = opts && opts.onLevelChange;
+      onComboChange = opts && opts.onComboChange;
+      onKO = opts && opts.onKO;
       await ensureStarted();
       // Stadium BGM is gated on the first keystroke (see onKey) so the page
       // stays silent until the user actually starts typing.
@@ -512,6 +585,7 @@
     onCmdEnter(opts) {
       // KO — gong + long cheer. Combo/level reset.
       if (!opts || opts.typingSE !== false) playKO();
+      if (onKO) onKO();
       resetCombo();
     },
     onClick(opts) {
@@ -523,6 +597,8 @@
       stopStadiumBGM();
       resetCombo();
       onLevelChange = null;
+      onComboChange = null;
+      onKO = null;
     },
     getCurrentLevel() { return combo.level; },
   };

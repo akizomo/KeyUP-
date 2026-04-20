@@ -7,6 +7,7 @@
   "typingSELabel":    { "message": "⌨️ タイピングSE" },
   "clickSELabel":     { "message": "🖱️ クリックSE" },
   "invincibleBGMLabel":{ "message": "🎮 無敵BGM" },
+  "hudEffectsLabel":  { "message": "🎯 HUDエフェクト" },
   "guideTitle":       { "message": "🎵 サウンドガイド" },
   "statsTodayTime":   { "message": "今日の無敵時間" },
   "statsBestStreak":  { "message": "最高連続" }

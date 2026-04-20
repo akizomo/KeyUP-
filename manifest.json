@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Key↑",
+  "name": "KeyUP",
   "version": "0.2.0",
   "default_locale": "en",
   "description": "__MSG_extensionDescription__",
@@ -12,7 +12,8 @@
     {
       "matches": ["<all_urls>"],
       "js": ["content.js"],
-      "run_at": "document_idle"
+      "run_at": "document_idle",
+      "all_frames": true
     }
   ],
   "action": {

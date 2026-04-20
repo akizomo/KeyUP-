@@ -52,6 +52,12 @@
         onLevelChange: (level) => {
           tellSW('set-level', { level });
         },
+        onComboChange: (count) => {
+          tellSW('set-count', { count });
+        },
+        onKO: () => {
+          tellSW('ko');
+        },
       });
       activeTheme.setVolume(settings.volume);
     } catch (e) {

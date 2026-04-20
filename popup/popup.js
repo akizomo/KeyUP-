@@ -3,6 +3,7 @@ const DEFAULTS = {
   typingSE: true,
   clickSE: true,
   invincibleBGM: true,
+  hudEffects: true,
   activeTheme: 'fighting',
 };
 
@@ -50,6 +51,7 @@ function render(settings) {
   $('typingSE').checked = !!settings.typingSE;
   $('clickSE').checked = !!settings.clickSE;
   $('invincibleBGM').checked = !!settings.invincibleBGM;
+  $('hudEffects').checked = !!settings.hudEffects;
   document.querySelectorAll('.theme-option').forEach((el) => {
     el.classList.toggle('active', el.dataset.theme === settings.activeTheme);
   });
@@ -105,7 +107,7 @@ $('volume').addEventListener('input', (e) => {
   save({ volume: v });
 });
 
-['typingSE', 'clickSE', 'invincibleBGM'].forEach((id) => {
+['typingSE', 'clickSE', 'invincibleBGM', 'hudEffects'].forEach((id) => {
   $(id).addEventListener('change', (e) => save({ [id]: e.target.checked }));
 });
 
